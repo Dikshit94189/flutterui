@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_ui/utils/responsive.dart';
 
 import 'home_main.dart';
 
@@ -37,3 +38,10 @@ class MyApp extends StatelessWidget {
   }
 }
 
+// extension ResponsiveExt on BuildContext {
+//   Responsive get responsive => Responsive(this);
+// }
+
+extension ResponsiveExt on BuildContext {
+  Responsive get responsive => Responsive(this);
+}
