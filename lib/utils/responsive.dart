@@ -23,6 +23,18 @@ class Responsive {
     return desktop ?? mobile * 1.5;
   }
 
+  double height(double mobile , {double? tablet , double? desktop}){
+    if (isTablet && tablet != null) return tablet;
+    if (isDesktop && desktop != null) return desktop;
+    return mobile;
+  }
+
+  double width(double mobile , {double? tablet , double? desktop}){
+    if(isTablet && tablet != null) return tablet;
+    if(isDesktop && desktop != null) return desktop;
+    return mobile;
+  }
+
   /// Padding based on device type
   EdgeInsets padding(double mobile, {double? tablet, double? desktop}) {
     if (isMobile) return EdgeInsets.all(mobile);

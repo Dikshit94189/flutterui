@@ -1,3 +1,4 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_ui/screens/bottom_tabs/tab_3.dart';
 import 'package:flutter_ui/screens/bottom_tabs/tab_4.dart';
@@ -34,7 +35,7 @@ class _HomePageState extends State<HomePage> {
   void _navigateToDrawerPage(Widget page) {
     Navigator.push(
       context,
-      MaterialPageRoute(builder: (context) => page),
+      CupertinoPageRoute(builder: (context) => page),
     );
   }
 
