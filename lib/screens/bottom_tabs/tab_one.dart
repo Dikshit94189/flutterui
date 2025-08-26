@@ -11,9 +11,12 @@ class BottomTab1 extends StatelessWidget {
       appBar: AppBar(
         title: Text(
           "HOME",
-          style: TextStyle(
-            fontSize: context.responsive.fontSize(16, tablet: 18, desktop: 20),
-          ),
+            style: TextStyle(
+                fontSize: context.responsive.fontSize(16, tablet: 18, desktop: 20),
+                fontFamily: "Raleway",
+                fontWeight: FontWeight.w700,
+                color: Colors.blue)
+
         ),
       ),
       body: Padding(

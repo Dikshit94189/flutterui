@@ -1,5 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_ui/main.dart';
 import 'package:flutter_ui/screens/bottom_tabs/tab_3.dart';
 import 'package:flutter_ui/screens/bottom_tabs/tab_4.dart';
 import 'package:flutter_ui/screens/bottom_tabs/tab_one.dart';
@@ -82,7 +83,9 @@ class _HomePageState extends State<HomePage> {
               child: Text("My Drawer", style: TextStyle(
                   fontFamily: "Raleway",
                   fontWeight: FontWeight.w700,
-                  color: Colors.white, fontSize: 20)),
+                  color: Colors.white,
+                  fontSize: context.responsive.fontSize(16, tablet: 18, desktop: 20),
+              )),
             ),
             ListTile(
               leading:   Icon(Icons.pages),
