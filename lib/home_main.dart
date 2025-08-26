@@ -10,7 +10,7 @@ import 'package:flutter_ui/screens/drawer/drawer_three.dart';
 import 'package:flutter_ui/screens/drawer/drawer_two.dart';
 
 class HomePage extends StatefulWidget {
-  const HomePage({super.key});
+   HomePage({super.key});
 
   @override
   State<HomePage> createState() => _HomePageState();
@@ -20,10 +20,10 @@ class _HomePageState extends State<HomePage> {
   int _currentIndex = 0;
 
   final List<Widget> _bottomTabs = [
-    const BottomTab1(),
-    const BottomTab2(),
-    const BottomTab3(),
-    const BottomTab4(),
+     BottomTab1(),
+     BottomTab2(),
+     BottomTab3(),
+     BottomTab4(),
   ];
 
   void _onBottomNavTapped(int index) {
@@ -43,14 +43,19 @@ class _HomePageState extends State<HomePage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text("Home Page"),
+        title:  Text("App Base" ,
+          style: TextStyle(
+            fontFamily: "Raleway",
+            fontWeight: FontWeight.w400
+          ),
+        ),
       ),
       body: _bottomTabs[_currentIndex],
       bottomNavigationBar: BottomNavigationBar(
         currentIndex: _currentIndex,
         onTap: _onBottomNavTapped,
         type: BottomNavigationBarType.fixed,
-        items: const [
+        items:  [
           BottomNavigationBarItem(
             icon: Icon(Icons.home),
             label: "Tab 1",
@@ -72,29 +77,48 @@ class _HomePageState extends State<HomePage> {
       drawer: Drawer(
         child: ListView(
           children: [
-            const DrawerHeader(
+              DrawerHeader(
               decoration: BoxDecoration(color: Colors.blue),
-              child: Text("My Drawer", style: TextStyle(color: Colors.white, fontSize: 20)),
+              child: Text("My Drawer", style: TextStyle(
+                  fontFamily: "Raleway",
+                  fontWeight: FontWeight.w700,
+                  color: Colors.white, fontSize: 20)),
             ),
             ListTile(
-              leading: const Icon(Icons.pages),
-              title: const Text("Drawer Page 1"),
-              onTap: () => _navigateToDrawerPage(const DrawerPage1()),
+              leading:   Icon(Icons.pages),
+              title:   Text("Drawer Page 1" , style: TextStyle(
+                fontFamily: "Raleway",
+                fontStyle: FontStyle.italic,
+                fontWeight: FontWeight.w900
+              ),),
+              onTap: () => _navigateToDrawerPage( DrawerPage1()),
             ),
             ListTile(
-              leading: const Icon(Icons.account_circle),
-              title: const Text("Drawer Page 2"),
-              onTap: () => _navigateToDrawerPage(const DrawerPage2()),
+              leading:  Icon(Icons.account_circle),
+              title:  Text("Drawer Page 2" , style:TextStyle(
+                  fontFamily: "Raleway",
+                  fontStyle: FontStyle.italic,
+                  fontWeight: FontWeight.w900
+              ),),
+              onTap: () => _navigateToDrawerPage( DrawerPage2()),
             ),
             ListTile(
-              leading: const Icon(Icons.settings),
-              title: const Text("Drawer Page 3"),
-              onTap: () => _navigateToDrawerPage(const DrawerPage3()),
+              leading:  Icon(Icons.settings),
+              title:  Text("Drawer Page 3" ,style: TextStyle(
+                  fontFamily: "Raleway",
+                  fontStyle: FontStyle.italic,
+                  fontWeight: FontWeight.w900
+              )),
+              onTap: () => _navigateToDrawerPage( DrawerPage3()),
             ),
             ListTile(
-              leading: const Icon(Icons.info),
-              title: const Text("Drawer Page 4"),
-              onTap: () => _navigateToDrawerPage(const DrawerPage4()),
+              leading:  Icon(Icons.info),
+              title:  Text("Drawer Page 4" , style: TextStyle(
+                  fontFamily: "Raleway",
+                  fontStyle: FontStyle.italic,
+                  fontWeight: FontWeight.w900
+              )),
+              onTap: () => _navigateToDrawerPage( DrawerPage4()),
             ),
           ],
         ),

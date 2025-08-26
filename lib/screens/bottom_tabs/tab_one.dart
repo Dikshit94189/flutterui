@@ -10,7 +10,7 @@ class BottomTab1 extends StatelessWidget {
     return Scaffold(
       appBar: AppBar(
         title: Text(
-          "Responsive UI",
+          "HOME",
           style: TextStyle(
             fontSize: context.responsive.fontSize(16, tablet: 18, desktop: 20),
           ),
