@@ -42,6 +42,13 @@ class Responsive {
     return EdgeInsets.all(desktop ?? mobile * 2);
   }
 
+  /// heights size
+  double heights(double mobile , {double? tablet , double? desktop}) {
+    if (isMobile) return mobile;
+    if (isTablet) return tablet ?? mobile * 1.5;
+    return desktop ?? mobile * 2;
+  }
+
   /// Icon size
   double iconSize(double mobile, {double? tablet, double? desktop}) {
     if (isMobile) return mobile;
@@ -56,4 +63,23 @@ class Responsive {
   /// Button width & height
   double buttonWidth({double percent = 0.6}) => screenWidth * percent;
   double buttonHeight({double percent = 0.07}) => screenHeight * percent;
+
+
+  EdgeInsets symmetric(double mobileH, double mobileV, {double? tabletH, double? tabletV, double? desktopH, double? desktopV}) {
+    if (isTablet) {
+      return EdgeInsets.symmetric(
+        horizontal: tabletH ?? mobileH * 1.5,
+        vertical: tabletV ?? mobileV * 1.5,
+      );
+    }
+    if (isDesktop) {
+      return EdgeInsets.symmetric(
+        horizontal: desktopH ?? mobileH * 2,
+        vertical: desktopV ?? mobileV * 2,
+      );
+    }
+    return EdgeInsets.symmetric(horizontal: mobileH, vertical: mobileV);
+  }
+
+
 }
