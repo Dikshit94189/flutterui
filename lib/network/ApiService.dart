@@ -1,5 +1,6 @@
 import 'package:dio/dio.dart';
 
+// https://picsum.photos/v2/list
 class ApiService {
   final Dio _dio = Dio(
     BaseOptions(
@@ -10,7 +11,7 @@ class ApiService {
     ),
   );
 
-  Future<Response> getImages({int page = 1, int limit = 10}) async {
+  Future<Response> getImages({int page = 1, int limit = 20}) async {
     return await _dio.get("/list?page=$page&limit=$limit");
   }
 }
