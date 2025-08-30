@@ -1,6 +1,8 @@
 import 'package:carousel_slider/carousel_slider.dart';
+import 'package:cupertino_calendar_picker/cupertino_calendar_picker.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_ui/customs/button.dart';
 import 'package:flutter_ui/main.dart';
 
 // class HomeTab extends StatefulWidget {
@@ -161,6 +163,8 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
  import 'package:cached_network_image/cached_network_image.dart';
 import 'package:smooth_page_indicator/smooth_page_indicator.dart';
 
+import '../utils/calendar_utils.dart';
+import '../utils/responsive.dart';
 import '../view_model/home_views.dart';
 
 // class HomeTab extends ConsumerWidget {
@@ -311,12 +315,23 @@ class _HomeTabState extends ConsumerState<HomeTab> {
   int _currentIndex = 0;
 
   @override
+  void initState() {
+    super.initState();
+    // ✅ Trigger fetch once when screen opens
+    Future.microtask(() {
+      ref.read(imageViewModelProvider.notifier).fetchImages();
+    });
+  }
+
+  @override
   Widget build(BuildContext context) {
     final state = ref.watch(imageViewModelProvider);
 
     return Scaffold(
       body: SingleChildScrollView(
         child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          mainAxisAlignment: MainAxisAlignment.start,
           children: [
             const SizedBox(height: 10),
 
@@ -326,6 +341,8 @@ class _HomeTabState extends ConsumerState<HomeTab> {
                 if (images.isEmpty) return const Text("No images found");
 
                 return Column(
+                  crossAxisAlignment: CrossAxisAlignment.center,
+                  mainAxisAlignment: MainAxisAlignment.center,
                   children: [
                 CarouselSlider(
                 items: images.map((image) {
@@ -387,15 +404,32 @@ class _HomeTabState extends ConsumerState<HomeTab> {
 
 
             /// 🔹 Responsive Button Example
-            SizedBox(
-              width: 200,
-              height: 50,
-              child: ElevatedButton.icon(
-                onPressed: () {},
-                icon: const Icon(Icons.phone_android),
-                label: const Text("Click Me"),
-              ),
+        // wherever you build your button
+// (uses your Responsive class for the button’s size only)
+        Builder(
+          builder: (btnCtx) => SizedBox(
+            width: Responsive(btnCtx).width(200, tablet: 250, desktop: 300),
+            height: Responsive(btnCtx).height(50, tablet: 60, desktop: 70),
+            child: ZomatoButton(
+               // title:'Pick Date',
+              onTap: () async {
+                final selected = await showCalendarPicker(
+                  context: btnCtx, // IMPORTANT: pass the *button* context
+                  initialDateTime: DateTime.now(),
+                  minimumDateTime: DateTime(2020, 1, 1),
+                  maximumDateTime: DateTime(2030, 12, 31),
+                  mode: CupertinoCalendarMode.date, // use .dateTime to include time
+                  onDateTimeChanged: (dt) => debugPrint('Touched: $dt'),
+                  // selectableDayPredicate: (d) => d.isAfter(DateTime.now()), // example
+                );
+                if (selected != null) {
+                  debugPrint('Final date picked: $selected');
+                }
+              },
             ),
+          ),
+        )
+        ,
 
             const SizedBox(height: 20),
 
