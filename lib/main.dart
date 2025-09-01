@@ -1,11 +1,17 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_ui/utils/responsive.dart';
+import 'package:hive/hive.dart';
+import 'package:hive_flutter/adapters.dart';
 
 import 'home_main.dart';
 
-void main() {
-  runApp(ProviderScope(child: const MyApp()));
+void main() async {
+  await Hive.initFlutter();
+  await Hive.openBox("LocalStorage");
+  runApp(
+      ProviderScope
+        (child: const MyApp()));
 }
 
 class MyApp extends StatelessWidget {

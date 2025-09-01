@@ -161,6 +161,7 @@ import 'package:flutter_ui/main.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
  import 'package:cached_network_image/cached_network_image.dart';
+import 'package:hive/hive.dart';
 import 'package:smooth_page_indicator/smooth_page_indicator.dart';
 
 import '../utils/calendar_utils.dart';
@@ -313,14 +314,30 @@ class HomeTab extends ConsumerStatefulWidget {
 class _HomeTabState extends ConsumerState<HomeTab> {
   final CarouselSliderController _controller = CarouselSliderController();
   int _currentIndex = 0;
+  final TextEditingController nameController = TextEditingController();
+  final Box box = Hive.box("LocalStorage");
+
+  String nameSaved = "";
 
   @override
   void initState() {
     super.initState();
     // ✅ Trigger fetch once when screen opens
     Future.microtask(() {
+      nameSaved = box.get('nameSaveHere' , defaultValue: "") ?? "";
       ref.read(imageViewModelProvider.notifier).fetchImages();
     });
+  }
+
+  void saveText(){
+    final value = nameController.text.trim();
+    if(value.isNotEmpty){
+      box.put('nameSaveHere', value);
+      setState(() {
+        nameSaved = value;
+      });
+      nameController.clear();
+    }
   }
 
   @override
@@ -430,6 +447,35 @@ class _HomeTabState extends ConsumerState<HomeTab> {
           ),
         )
         ,
+
+            const SizedBox(height: 20),
+
+
+            Text(
+              "Name Text: $nameSaved",
+              style: const TextStyle(fontSize: 18),
+            ),
+
+            // Text field
+
+            TextField(
+              controller: nameController,
+              decoration: InputDecoration(
+                labelText: "Save Name Here",
+                border: OutlineInputBorder(),
+              ),
+            ),
+
+
+            ElevatedButton(
+              onPressed: saveText,
+              child: const Text("Save Text"),
+            ),
+
+
+
+
+
 
             const SizedBox(height: 20),
 
