@@ -1,3 +1,4 @@
+import 'package:animated_text_kit/animated_text_kit.dart';
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:cupertino_calendar_picker/cupertino_calendar_picker.dart';
 import 'package:flutter/cupertino.dart';
@@ -423,54 +424,157 @@ class _HomeTabState extends ConsumerState<HomeTab> {
             /// 🔹 Responsive Button Example
         // wherever you build your button
 // (uses your Responsive class for the button’s size only)
-        Builder(
-          builder: (btnCtx) => SizedBox(
-            width: Responsive(btnCtx).width(200, tablet: 250, desktop: 300),
-            height: Responsive(btnCtx).height(50, tablet: 60, desktop: 70),
-            child: ZomatoButton(
-               title:'Date Picker',
-              onTap: () async {
-                final selected = await showCalendarPicker(
-                  context: btnCtx, // IMPORTANT: pass the *button* context
-                  initialDateTime: DateTime.now(),
-                  minimumDateTime: DateTime(2020, 1, 1),
-                  maximumDateTime: DateTime(2030, 12, 31),
-                  mode: CupertinoCalendarMode.date, // use .dateTime to include time
-                  onDateTimeChanged: (dt) => debugPrint('Touched: $dt'),
-                  // selectableDayPredicate: (d) => d.isAfter(DateTime.now()), // example
-                );
-                if (selected != null) {
-                  debugPrint('Final date picked: $selected');
-                }
-              },
-            ),
-          ),
-        )
-        ,
-
-            const SizedBox(height: 20),
 
 
-            Text(
-              "Name Text: $nameSaved",
-              style: const TextStyle(fontSize: 18),
-            ),
+              SizedBox(height: 20),
 
-            // Text field
-
-            TextField(
-              controller: nameController,
-              decoration: InputDecoration(
-                labelText: "Save Name Here",
-                border: OutlineInputBorder(),
+            Padding(
+              padding: Responsive(context).symmetric(
+                16,  // mobile horizontal
+                12,  // mobile vertical
+                tabletH: 24, // tablet horizontal
+                tabletV: 20, // tablet vertical
+                desktopH: 40, // desktop horizontal
+                desktopV: 32, // desktop vertical
               ),
-            ),
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.start,
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
 
+                  Row(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      Expanded(
+                        child: Builder(
+                          builder: (btnCtx) => SizedBox(
+                            width: Responsive(btnCtx).boxWidth(0.5), // 50% width of screen
+                            // width: Responsive(btnCtx).width(200, tablet: 250, desktop: 300),
+                            height: Responsive(btnCtx).height(50, tablet: 60, desktop: 70),
+                            child: ZomatoButton(
+                              title:'Date Picker',
+                              onTap: () async {
+                                final selected = await showCalendarPicker(
+                                  context: btnCtx, // IMPORTANT: pass the *button* context
+                                  initialDateTime: DateTime.now(),
+                                  minimumDateTime: DateTime(2020, 1, 1),
+                                  maximumDateTime: DateTime(2030, 12, 31),
+                                  mode: CupertinoCalendarMode.date, // use .dateTime to include time
+                                  onDateTimeChanged: (dt) => debugPrint('Touched: $dt'),
+                                  // selectableDayPredicate: (d) => d.isAfter(DateTime.now()), // example
+                                );
+                                if (selected != null) {
+                                  debugPrint('Final date picked: $selected');
+                                }
+                              },
+                            ),
+                          ),
+                        ),
+                      )
+                      ,
 
-            ElevatedButton(
-              onPressed: saveText,
-              child: const Text("Save Text"),
-            ),
+                      SizedBox(
+                        width: context.responsive.width(
+                          12,       // mobile
+                          tablet: 20,
+                          desktop: 32,
+                        ),
+                      ),
+
+                      Expanded(
+                        child: Builder(
+                          builder: (btnCtx) => SizedBox(
+                            width: Responsive(btnCtx).boxWidth(0.5), // 50% width of screen
+                            height: Responsive(btnCtx).height(50, tablet: 60, desktop: 70),
+                            child: Container(
+                               decoration: BoxDecoration(
+                                color: Colors.redAccent, // Zomato-like color
+                                borderRadius: BorderRadius.circular(12),
+                              ),
+                                child: DefaultTextStyle(
+                                  style:   TextStyle(
+                                    fontSize: context.responsive.fontSize(12, tablet: 16 , desktop: 20),
+                                    color: Colors.white,
+                                    fontWeight: FontWeight.bold,
+                                    shadows: [
+                                      Shadow(
+                                        blurRadius: 7.0,
+                                        color: Colors.white,
+                                        offset: Offset(0, 0),
+                                      ),
+                                    ],
+                                  ),
+                                  child: Center(
+                                    child: AnimatedTextKit(
+                                      repeatForever: true,
+                                      animatedTexts: [
+                                        FlickerAnimatedText('Flicker Frenzy' ),
+                                        FlickerAnimatedText('Night Vibes On'),
+                                        FlickerAnimatedText("C'est La Vie !"),
+                                      ],
+                                      onTap: () {
+                                        print("Tap Event");
+                                      },
+                                    ),
+                                  ),
+                                ),
+                            )
+                          ),
+                        ),
+                      )
+                      ,
+
+                    ],
+                  ),
+
+                  SizedBox(
+                    height: Responsive(context).heights(
+                      12,       // mobile
+                      tablet: 20,
+                      desktop: 32,
+                    ),
+                  ),
+
+                  Text(
+                    "Name Text: $nameSaved",
+                    style: const TextStyle(fontSize: 18),
+                  ),
+                  SizedBox(
+                    height: Responsive(context).heights(
+                      12,       // mobile
+                      tablet: 20,
+                      desktop: 32,
+                    ),
+                  ),
+
+                  // Text field
+
+                  TextField(
+                    controller: nameController,
+                    decoration: InputDecoration(
+                      labelText: "Save Name Here",
+                      border: OutlineInputBorder(),
+                    ),
+                  ),
+
+                  SizedBox(
+                    height: Responsive(context).heights(
+                      12,       // mobile
+                      tablet: 20,
+                      desktop: 32,
+                    ),
+                  ),
+
+                  ElevatedButton(
+                    onPressed: saveText,
+                    child: const Text("Save Text"),
+                  ),
+                ],
+              ),
+            )
+
+            ,
 
 
 

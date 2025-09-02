@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_ui/main.dart';
 
 class ZomatoButton extends StatelessWidget {
   final String title;
@@ -17,7 +18,7 @@ class ZomatoButton extends StatelessWidget {
       borderRadius: BorderRadius.circular(12),
       child: Container(
         width: double.infinity,
-        padding: const EdgeInsets.symmetric(vertical: 16, horizontal: 20),
+        padding:     EdgeInsets.symmetric(vertical: 16, horizontal: 20),
         decoration: BoxDecoration(
           color: Colors.redAccent, // Zomato-like color
           borderRadius: BorderRadius.circular(12),
@@ -25,9 +26,9 @@ class ZomatoButton extends StatelessWidget {
         alignment: Alignment.center,
         child: Text(
           title,
-          style: const TextStyle(
+          style:   TextStyle(
             color: Colors.white,
-            fontSize: 16,
+            fontSize: context.responsive.fontSize(12, tablet: 16 , desktop: 20),
             fontWeight: FontWeight.bold,
           ),
         ),
