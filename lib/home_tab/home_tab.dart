@@ -566,9 +566,12 @@ class _HomeTabState extends ConsumerState<HomeTab> {
                     ),
                   ),
 
-                  ElevatedButton(
-                    onPressed: saveText,
-                    child: const Text("Save Text"),
+                  SizedBox(
+                    width: double.infinity, // makes button full width
+                    child: FilledButton(
+                      onPressed: saveText,
+                      child: const Text("Save Text"),
+                    ),
                   ),
                 ],
               ),

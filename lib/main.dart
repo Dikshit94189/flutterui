@@ -23,8 +23,7 @@ class MyApp extends StatelessWidget {
     return MaterialApp(
       title: 'Flutter Demo',
       theme: ThemeData(
-        dividerColor: Colors.transparent,
-        useMaterial3: true,
+
         // fontFamily: 'Raleway',
         // This is the theme of your application.
         //
@@ -41,7 +40,8 @@ class MyApp extends StatelessWidget {
         //
         // This works for code too, not just values: Most code changes can be
         // tested with just a hot reload.
-        colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
+        colorScheme: ColorScheme.light(primary: Colors.blue      ,    brightness: Brightness.light,
+        ),
       ),
       home: HomePage(),
     );
