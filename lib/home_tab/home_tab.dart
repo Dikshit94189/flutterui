@@ -326,7 +326,7 @@ class _HomeTabState extends ConsumerState<HomeTab> {
     // ✅ Trigger fetch once when screen opens
     Future.microtask(() {
       nameSaved = box.get('nameSaveHere' , defaultValue: "") ?? "";
-      ref.read(imageViewModelProvider.notifier).fetchImages();
+      // ref.read(imageViewModelProvider.notifier).fetchImages();
     });
   }
 
