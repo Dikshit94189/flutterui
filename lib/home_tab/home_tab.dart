@@ -350,7 +350,7 @@ class _HomeTabState extends ConsumerState<HomeTab> {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           mainAxisAlignment: MainAxisAlignment.start,
-          children: [
+          children: <Widget>[
             const SizedBox(height: 10),
 
             /// Carousel Slider with indicator
@@ -471,8 +471,7 @@ class _HomeTabState extends ConsumerState<HomeTab> {
                             ),
                           ),
                         ),
-                      )
-                      ,
+                      ),
 
                       SizedBox(
                         width: context.responsive.width(
@@ -481,7 +480,6 @@ class _HomeTabState extends ConsumerState<HomeTab> {
                           desktop: 32,
                         ),
                       ),
-
                       Expanded(
                         child: Builder(
                           builder: (btnCtx) => SizedBox(
@@ -575,60 +573,70 @@ class _HomeTabState extends ConsumerState<HomeTab> {
                   ),
                 ],
               ),
-            )
+            ),
 
-            ,
+            Padding(
+              padding: Responsive(context).symmetric(
+                16,  // mobile horizontal
+                12,  // mobile vertical
+                tabletH: 24, // tablet horizontal
+                tabletV: 20, // tablet vertical
+                desktopH: 40, // desktop horizontal
+                desktopV: 32, // desktop vertical
+              ),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                mainAxisAlignment: MainAxisAlignment.start,
+                children: [
+                  const SizedBox(height: 20),
 
+                  /// 🔹 Example of Responsive Text
+                  const Text(
+                    "This is responsive text!",
+                    style: TextStyle(
+                      fontSize: 20,
+                      fontWeight: FontWeight.bold,
+                    ),
+                  ),
 
+                  const SizedBox(height: 20),
 
-
-
-
-            const SizedBox(height: 20),
-
-            /// 🔹 Example of Responsive Text
-            const Text(
-              "This is responsive text!",
-              style: TextStyle(
-                fontSize: 20,
-                fontWeight: FontWeight.bold,
+                  /// 🔹 Horizontal List Example
+                  SizedBox(
+                    height: 160,
+                    child: ListView.builder(
+                      itemCount: state.hasValue ? state.value!.length : 0,
+                      scrollDirection: Axis.horizontal,
+                      physics: const BouncingScrollPhysics(),
+                      itemBuilder: (context, index) {
+                        final image = state.value![index];
+                        return Container(
+                          margin: const EdgeInsets.all(8),
+                          width: 120,
+                          decoration: BoxDecoration(
+                            borderRadius: BorderRadius.circular(8),
+                            color: Colors.grey.shade200,
+                          ),
+                          child: ClipRRect(
+                            borderRadius: BorderRadius.circular(8),
+                            child: CachedNetworkImage(
+                              imageUrl: image.downloadUrl,
+                              fit: BoxFit.cover,
+                              placeholder: (context, url) => const Center(
+                                child: CircularProgressIndicator(strokeWidth: 2),
+                              ),
+                              errorWidget: (context, url, error) =>
+                              const Icon(Icons.error, color: Colors.red),
+                            ),
+                          ),
+                        );
+                      },
+                    ),
+                  ),
+                ],
               ),
             ),
 
-            const SizedBox(height: 20),
-
-            /// 🔹 Horizontal List Example
-            SizedBox(
-              height: 160,
-              child: ListView.builder(
-                itemCount: state.hasValue ? state.value!.length : 0,
-                scrollDirection: Axis.horizontal,
-                physics: const BouncingScrollPhysics(),
-                itemBuilder: (context, index) {
-                  final image = state.value![index];
-                  return Container(
-                    margin: const EdgeInsets.all(8),
-                    width: 120,
-                    decoration: BoxDecoration(
-                      borderRadius: BorderRadius.circular(8),
-                      color: Colors.grey.shade200,
-                    ),
-                    child: ClipRRect(
-                      borderRadius: BorderRadius.circular(8),
-                      child: CachedNetworkImage(
-                        imageUrl: image.downloadUrl,
-                        fit: BoxFit.cover,
-                        placeholder: (context, url) => const Center(
-                          child: CircularProgressIndicator(strokeWidth: 2),
-                        ),
-                        errorWidget: (context, url, error) =>
-                        const Icon(Icons.error, color: Colors.red),
-                      ),
-                    ),
-                  );
-                },
-              ),
-            ),
 
           ],
         ),
