@@ -592,7 +592,7 @@ class _HomeTabState extends ConsumerState<HomeTab> {
 
                   /// 🔹 Example of Responsive Text
                   const Text(
-                    "This is responsive text!",
+                    "HEy Folks  \n Developers",
                     style: TextStyle(
                       fontSize: 20,
                       fontWeight: FontWeight.bold,
