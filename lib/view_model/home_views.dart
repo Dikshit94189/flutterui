@@ -2,19 +2,6 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import '../models/home_images.dart';
 import '../repository/home_repository.dart';
 
-// final imageViewModelProvider =
-// StateNotifierProvider<ImageViewModel, AsyncValue<List<ImageModel>>>(
-//       (ref) => ImageViewModel(ImageRepository()),
-// );
-
-// final imageViewModelProvider =
-// StateNotifierProvider<ImageViewModel, AsyncValue<List<ImageModel>>>(
-//       (ref) {
-//     final notifier = ImageViewModel(ImageRepository());
-//     return notifier;
-//   },
-// );
-
 final imageViewModelProvider =
 StateNotifierProvider.autoDispose<ImageViewModel, AsyncValue<List<ImageModel>>>(
       (ref) {
