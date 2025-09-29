@@ -1,5 +1,6 @@
  import 'dart:io';
 
+import 'package:animate_do/animate_do.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
@@ -42,7 +43,48 @@ class _ShowsPageState extends State<ShowsPage> {
     }
   }
 
-  void _showPickOptionsDialog() {
+
+
+  Future<void> _showPickOptionsDialog(BuildContext context) async {
+    showDialog(
+      context: context,
+      barrierDismissible: true,
+      builder: (context) {
+        return SlideInDown( // 👈 animate_do provides slide from top
+          duration: const Duration(milliseconds: 400),
+          child: Dialog(
+            shape: RoundedRectangleBorder(
+              borderRadius: BorderRadius.circular(16),
+            ),
+            child: SafeArea(
+              child: Wrap(
+                children: [
+                  ListTile(
+                    leading: const Icon(Icons.camera_alt),
+                    title: const Text("Camera"),
+                    onTap: () {
+                      Navigator.pop(context);
+                      _pickImage(ImageSource.camera); // your function
+                    },
+                  ),
+                  ListTile(
+                    leading: const Icon(Icons.photo),
+                    title: const Text("Gallery"),
+                    onTap: () {
+                      Navigator.pop(context);
+                      _pickImage(ImageSource.gallery); // your function
+                    },
+                  ),
+                ],
+              ),
+            ),
+          ),
+        );
+      },
+    );
+  }
+
+  /*void _showPickOptionsDialog() {
     showModalBottomSheet(
       context: context,
       builder: (context) => SafeArea(
@@ -68,7 +110,7 @@ class _ShowsPageState extends State<ShowsPage> {
         ),
       ),
     );
-  }
+  }*/
 
 
   @override
@@ -97,7 +139,8 @@ class _ShowsPageState extends State<ShowsPage> {
             right: 0,
             bottom: 0,
             child: IconButton(
-              onPressed: _showPickOptionsDialog,
+              onPressed: () => _showPickOptionsDialog(context),
+              // onPressed: _showPickOptionsDialog,
               icon: const Icon(Icons.add_a_photo, color: Colors.blue),
             ),
           ),
