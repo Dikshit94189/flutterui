@@ -3,9 +3,7 @@ import 'package:flutter/foundation.dart';
 import 'package:hive_flutter/adapters.dart';
 
 import 'dart:io';
-import 'package:hive/hive.dart';
 import 'package:path_provider/path_provider.dart';
-import 'package:flutter/foundation.dart';
 
 class StorageHelper {
   static const String _boxName = "LocalStorage";
