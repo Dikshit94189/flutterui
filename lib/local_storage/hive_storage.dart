@@ -52,4 +52,3 @@ class StorageHelper {
     return _box.get(_imagePathKey, defaultValue: null);
   }
 }
-
