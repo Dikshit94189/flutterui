@@ -1,17 +1,12 @@
 import 'dart:io';
-
 import 'package:animate_do/animate_do.dart';
+import 'package:flutter/material.dart';
 import 'package:flutter/foundation.dart';
-import 'package:flutter/material.dart';
-import 'package:hive/hive.dart';
-import 'package:hive_flutter/adapters.dart';
 import 'package:image_picker/image_picker.dart';
-
-import '../../permission_handler/permission_helper.dart';
-import '../../utils/responsive.dart';
-
-import 'package:flutter/material.dart';
 import 'package:hive/hive.dart';
+import 'package:hive_flutter/hive_flutter.dart';
+import '../../local_storage/hive_storage.dart';
+import '../../permission_handler/permission_helper.dart';
 import '../../utils/responsive.dart';
 
 class BottomTab4 extends StatefulWidget {
@@ -24,11 +19,23 @@ class BottomTab4 extends StatefulWidget {
 class _BottomTab4State extends State<BottomTab4> {
   final _formKey = GlobalKey<FormState>();
   final TextEditingController nameController = TextEditingController();
-  final Box box = Hive.box("LocalStorage");
+
+  HiveStorage? hiveStorage;
 
   File? _imageFile;
   final ImagePicker _picker = ImagePicker();
-  XFile? _webImage; // For web preview
+  XFile? _webImage;
+
+  @override
+  void initState() {
+    super.initState();
+    _initHive();
+  }
+
+  Future<void> _initHive() async {
+    hiveStorage = await HiveStorage.getInstance();
+    setState(() {});
+  }
 
   Future<void> _pickImage(ImageSource source) async {
     bool granted = false;
@@ -50,7 +57,6 @@ class _BottomTab4State extends State<BottomTab4> {
       return;
     }
 
-    // Pick image
     final pickedFile = await _picker.pickImage(source: source);
     if (pickedFile != null) {
       setState(() {
@@ -77,9 +83,7 @@ class _BottomTab4State extends State<BottomTab4> {
             child: SafeArea(
               child: Wrap(
                 children: [
-                  // ✅ On mobile show Camera + Gallery
-                  // ✅ On web show only Gallery
-                  if (!kIsWeb) ...[
+                  if (!kIsWeb)
                     ListTile(
                       leading: const Icon(Icons.camera_alt),
                       title: const Text("Camera"),
@@ -88,7 +92,6 @@ class _BottomTab4State extends State<BottomTab4> {
                         _pickImage(ImageSource.camera);
                       },
                     ),
-                  ],
                   ListTile(
                     leading: const Icon(Icons.photo),
                     title: const Text("Gallery"),
@@ -106,25 +109,21 @@ class _BottomTab4State extends State<BottomTab4> {
     );
   }
 
-  /// Save the text directly to Hive (local storage)
   void saveText() {
     final value = nameController.text.trim();
     if (value.isNotEmpty) {
-      box.put('nameSaveHere', value);
-      nameController.clear(); // clear the text field
+      hiveStorage?.setName(value);
+      nameController.clear();
     }
   }
 
   @override
   Widget build(BuildContext context) {
-
     Widget imageWidget;
+    final double imgWidth = Responsive(context).width(80, tablet: 250, desktop: 300);
+    final double imgHeight = Responsive(context).height(80, tablet: 250, desktop: 300);
 
     if (kIsWeb) {
-      // Web preview
-      final double imgWidth = Responsive(context).width(80, tablet: 250, desktop: 300);
-      final double imgHeight = Responsive(context).height(80, tablet: 250, desktop: 300);
-
       if (_webImage != null) {
         imageWidget = Image.network(
           _webImage!.path,
@@ -145,10 +144,6 @@ class _BottomTab4State extends State<BottomTab4> {
         );
       }
     } else {
-      // Mobile preview
-      final double imgWidth = Responsive(context).width(80, tablet: 250, desktop: 300);
-      final double imgHeight = Responsive(context).height(80, tablet: 250, desktop: 300);
-
       if (_imageFile != null) {
         imageWidget = Image.file(
           _imageFile!,
@@ -170,72 +165,60 @@ class _BottomTab4State extends State<BottomTab4> {
       }
     }
 
-
     return SafeArea(
       child: Padding(
         padding: Responsive(context).symmetric(
-          16, 12, // mobile horizontal & vertical
+          16, 12,
           tabletH: 24, tabletV: 20,
           desktopH: 40, desktopV: 32,
         ),
         child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
+          crossAxisAlignment: CrossAxisAlignment.center,
           mainAxisSize: MainAxisSize.min,
           children: [
-
-            Column(
-              children: [
-         Padding(
-        padding: Responsive(context).padding(
-          12,      // mobile
-          tablet: 24,
-          desktop: 32,
-        ),
-        child: Stack(
-          alignment: Alignment.topLeft, // optional, can be topLeft
-          children: [
-            ClipRRect(
-              borderRadius: BorderRadius.circular(
-                Responsive(context).heights(80),
-              ), // responsive border radius
-              child: SizedBox(
-                width: Responsive(context).width(150, tablet: 250, desktop: 300),
-                height: Responsive(context).height(150, tablet: 250, desktop: 300),
-                child: imageWidget,
+            Padding(
+              padding: Responsive(context).padding(12, tablet: 24, desktop: 32),
+              child: Stack(
+                alignment: Alignment.topLeft,
+                children: [
+                  ClipRRect(
+                    borderRadius: BorderRadius.circular(Responsive(context).heights(80)),
+                    child: SizedBox(
+                      width: Responsive(context).width(150, tablet: 250, desktop: 300),
+                      height: Responsive(context).height(150, tablet: 250, desktop: 300),
+                      child: imageWidget,
+                    ),
+                  ),
+                  Positioned(
+                    left: Responsive(context).width(8, tablet: 16, desktop: 20),
+                    top: Responsive(context).height(8, tablet: 16, desktop: 20),
+                    child: IconButton(
+                      onPressed: () => _showPickOptionsDialog(context),
+                      icon: Icon(
+                        Icons.add_a_photo,
+                        color: Colors.blue,
+                        size: Responsive(context).iconSize(24, tablet: 32, desktop: 40),
+                      ),
+                    ),
+                  ),
+                ],
               ),
             ),
-            Positioned(
-              left: Responsive(context).width(8, tablet: 16, desktop: 20), // move to left
-              top: Responsive(context).height(8, tablet: 16, desktop: 20), // move to top
-              child: IconButton(
-                onPressed: () => _showPickOptionsDialog(context),
-                icon: Icon(
-                  Icons.add_a_photo,
-                  color: Colors.blue,
-                  size: Responsive(context).iconSize(24, tablet: 32, desktop: 40),
-                ),
-              ),
-            ),
-          ],
-        ),
-      ),
-              ],
-            ),
-            // Listen to Hive changes and automatically update UI
-            ValueListenableBuilder(
-              valueListenable: box.listenable(keys: ['nameSaveHere']),
-              builder: (context, Box value, _) {
-                final nameSaved = value.get('nameSaveHere', defaultValue: '') ?? '';
-                return Text(
-                  "Name Text: $nameSaved",
-                  style: const TextStyle(fontSize: 18),
-                );
-              },
-            ),
 
-            SizedBox(
-              height: Responsive(context).heights(12, tablet: 20, desktop: 32),
-            ),
+            // Hive name display
+            if (hiveStorage != null)
+              ValueListenableBuilder(
+                valueListenable: hiveStorage!.listenable(),
+                builder: (context, Box box, _) {
+                  final nameSaved = hiveStorage!.getName();
+                  return Text(
+                    "Name Text: $nameSaved",
+                    style: const TextStyle(fontSize: 18),
+                  );
+                },
+              ),
+
+            SizedBox(height: Responsive(context).heights(12, tablet: 20, desktop: 32)),
 
             Form(
               key: _formKey,
@@ -246,27 +229,21 @@ class _BottomTab4State extends State<BottomTab4> {
                   border: OutlineInputBorder(),
                 ),
                 validator: (value) {
-                  if (value == null || value.trim().isEmpty) {
-                    return "Name cannot be empty";
-                  }
-                  if (value.trim().length < 3) {
-                    return "Name must be at least 3 characters";
-                  }
+                  if (value == null || value.trim().isEmpty) return "Name cannot be empty";
+                  if (value.trim().length < 3) return "Name must be at least 3 characters";
                   return null;
                 },
               ),
             ),
 
-            SizedBox(
-              height: Responsive(context).heights(12, tablet: 20, desktop: 32),
-            ),
+            SizedBox(height: Responsive(context).heights(12, tablet: 20, desktop: 32)),
 
             SizedBox(
               width: double.infinity,
               child: ElevatedButton(
                 onPressed: () {
                   if (_formKey.currentState!.validate()) {
-                    saveText(); // saves to Hive without setState
+                    saveText();
                   }
                 },
                 child: const Text(
@@ -281,4 +258,3 @@ class _BottomTab4State extends State<BottomTab4> {
     );
   }
 }
-
