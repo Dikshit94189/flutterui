@@ -315,31 +315,15 @@ class HomeTab extends ConsumerStatefulWidget {
 class _HomeTabState extends ConsumerState<HomeTab> {
   final CarouselSliderController _controller = CarouselSliderController();
   int _currentIndex = 0;
-  final TextEditingController nameController = TextEditingController();
-  final Box box = Hive.box("LocalStorage");
 
-  String nameSaved = "";
+
 
   @override
   void initState() {
     super.initState();
-    // ✅ Trigger fetch once when screen opens
-    Future.microtask(() {
-      nameSaved = box.get('nameSaveHere' , defaultValue: "") ?? "";
-      // ref.read(imageViewModelProvider.notifier).fetchImages();
-    });
   }
 
-  void saveText(){
-    final value = nameController.text.trim();
-    if(value.isNotEmpty){
-      box.put('nameSaveHere', value);
-      setState(() {
-        nameSaved = value;
-      });
-      nameController.clear();
-    }
-  }
+
 
   @override
   Widget build(BuildContext context) {
@@ -350,7 +334,7 @@ class _HomeTabState extends ConsumerState<HomeTab> {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           mainAxisAlignment: MainAxisAlignment.start,
-          children: <Widget>[
+          children: <Widget>  [
             const SizedBox(height: 10),
 
             /// Carousel Slider with indicator
@@ -420,10 +404,9 @@ class _HomeTabState extends ConsumerState<HomeTab> {
             // ...rest of your widgets
 
 
-
             /// 🔹 Responsive Button Example
         // wherever you build your button
-// (uses your Responsive class for the button’s size only)
+        // (uses your Responsive class for the button’s size only)
 
 
               SizedBox(height: 20),
@@ -534,43 +517,8 @@ class _HomeTabState extends ConsumerState<HomeTab> {
                     ),
                   ),
 
-                  Text(
-                    "Name Text: $nameSaved",
-                    style: const TextStyle(fontSize: 18),
-                  ),
-                  SizedBox(
-                    height: Responsive(context).heights(
-                      12,       // mobile
-                      tablet: 20,
-                      desktop: 32,
-                    ),
-                  ),
 
-                  // Text field
 
-                  TextField(
-                    controller: nameController,
-                    decoration: InputDecoration(
-                      labelText: "Save Name Here",
-                      border: OutlineInputBorder(),
-                    ),
-                  ),
-
-                  SizedBox(
-                    height: Responsive(context).heights(
-                      12,       // mobile
-                      tablet: 20,
-                      desktop: 32,
-                    ),
-                  ),
-
-                  SizedBox(
-                    width: double.infinity, // makes button full width
-                    child: FilledButton(
-                      onPressed: saveText,
-                      child: const Text("Save Text"),
-                    ),
-                  ),
                 ],
               ),
             ),
@@ -633,6 +581,8 @@ class _HomeTabState extends ConsumerState<HomeTab> {
                       },
                     ),
                   ),
+
+
                 ],
               ),
             ),

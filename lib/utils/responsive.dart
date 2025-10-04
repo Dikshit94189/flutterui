@@ -80,6 +80,4 @@ class Responsive {
     }
     return EdgeInsets.symmetric(horizontal: mobileH, vertical: mobileV);
   }
-
-
 }

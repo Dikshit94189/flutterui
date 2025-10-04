@@ -177,6 +177,7 @@ class _HomePageState extends State<HomePage> {
           sliderOpenSize: MediaQuery.of(context).size.width * 0.45,
           animationDuration: 60,
           isDraggable: true,
+          backgroundColor: Colors.blueGrey,
           slideDirection: SlideDirection.leftToRight,
           sliderBoxShadow: SliderBoxShadow(blurRadius:50),
           appBar: SliderAppBar(
@@ -210,19 +211,19 @@ class _HomePageState extends State<HomePage> {
                 items: const [
                   BottomNavigationBarItem(
                     icon: Icon(Icons.home),
-                    label: "Tab 1",
+                    label: "Home",
                   ),
                   BottomNavigationBarItem(
-                    icon: Icon(Icons.search),
-                    label: "Tab 2",
+                    icon: Icon(CupertinoIcons.search_circle_fill),
+                    label: "Search",
                   ),
                   BottomNavigationBarItem(
-                    icon: Icon(Icons.notifications),
-                    label: "Tab 3",
+                    icon: Icon(CupertinoIcons.waveform_path_ecg),
+                    label: "Web View",
                   ),
                   BottomNavigationBarItem(
-                    icon: Icon(Icons.settings),
-                    label: "Tab 4",
+                    icon: Icon(CupertinoIcons.profile_circled),
+                    label: "Profile",
                   ),
                 ],
               ),
