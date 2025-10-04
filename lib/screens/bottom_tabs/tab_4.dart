@@ -20,7 +20,7 @@ class _BottomTab4State extends State<BottomTab4> {
   final _formKey = GlobalKey<FormState>();
   final TextEditingController nameController = TextEditingController();
 
-  HiveStorage? hiveStorage;
+  StorageHelper? storageHelper;
 
   File? _imageFile;
   final ImagePicker _picker = ImagePicker();
@@ -29,11 +29,19 @@ class _BottomTab4State extends State<BottomTab4> {
   @override
   void initState() {
     super.initState();
-    _initHive();
+    _initStorage();
   }
 
-  Future<void> _initHive() async {
-    hiveStorage = await HiveStorage.getInstance();
+  Future<void> _initStorage() async {
+    storageHelper = await StorageHelper.getInstance();
+
+    if (!kIsWeb) {
+      final savedPath = storageHelper!.getImagePath();
+      if (savedPath != null) {
+        _imageFile = File(savedPath);
+      }
+    }
+
     setState(() {});
   }
 
@@ -59,13 +67,14 @@ class _BottomTab4State extends State<BottomTab4> {
 
     final pickedFile = await _picker.pickImage(source: source);
     if (pickedFile != null) {
-      setState(() {
-        if (kIsWeb) {
-          _webImage = pickedFile;
-        } else {
-          _imageFile = File(pickedFile.path);
+      if (kIsWeb) {
+        setState(() => _webImage = pickedFile);
+      } else {
+        final savedPath = await storageHelper!.saveImageLocally(File(pickedFile.path));
+        if (savedPath != null) {
+          setState(() => _imageFile = File(savedPath));
         }
-      });
+      }
     }
   }
 
@@ -112,7 +121,7 @@ class _BottomTab4State extends State<BottomTab4> {
   void saveText() {
     final value = nameController.text.trim();
     if (value.isNotEmpty) {
-      hiveStorage?.setName(value);
+      storageHelper?.setName(value);
       nameController.clear();
     }
   }
@@ -124,54 +133,28 @@ class _BottomTab4State extends State<BottomTab4> {
     final double imgHeight = Responsive(context).height(80, tablet: 250, desktop: 300);
 
     if (kIsWeb) {
-      if (_webImage != null) {
-        imageWidget = Image.network(
-          _webImage!.path,
-          width: imgWidth,
-          height: imgHeight,
-          fit: BoxFit.cover,
-        );
-      } else {
-        imageWidget = Container(
-          width: imgWidth,
-          height: imgHeight,
-          color: Colors.grey.shade300,
-          child: Icon(
-            Icons.person,
-            size: Responsive(context).iconSize(80, tablet: 120, desktop: 150),
-            color: Colors.white70,
-          ),
-        );
-      }
+      imageWidget = _webImage != null
+          ? Image.network(_webImage!.path, width: imgWidth, height: imgHeight, fit: BoxFit.cover)
+          : Container(
+        width: imgWidth,
+        height: imgHeight,
+        color: Colors.grey.shade300,
+        child: Icon(Icons.person, size: Responsive(context).iconSize(80, tablet: 120, desktop: 150), color: Colors.white70),
+      );
     } else {
-      if (_imageFile != null) {
-        imageWidget = Image.file(
-          _imageFile!,
-          width: imgWidth,
-          height: imgHeight,
-          fit: BoxFit.cover,
-        );
-      } else {
-        imageWidget = Container(
-          width: imgWidth,
-          height: imgHeight,
-          color: Colors.grey.shade300,
-          child: Icon(
-            Icons.person,
-            size: Responsive(context).iconSize(80, tablet: 120, desktop: 150),
-            color: Colors.white70,
-          ),
-        );
-      }
+      imageWidget = _imageFile != null
+          ? Image.file(_imageFile!, width: imgWidth, height: imgHeight, fit: BoxFit.cover)
+          : Container(
+        width: imgWidth,
+        height: imgHeight,
+        color: Colors.grey.shade300,
+        child: Icon(Icons.person, size: Responsive(context).iconSize(80, tablet: 120, desktop: 150), color: Colors.white70),
+      );
     }
 
     return SafeArea(
       child: Padding(
-        padding: Responsive(context).symmetric(
-          16, 12,
-          tabletH: 24, tabletV: 20,
-          desktopH: 40, desktopV: 32,
-        ),
+        padding: Responsive(context).symmetric(16, 12, tabletH: 24, tabletV: 20, desktopH: 40, desktopV: 32),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.center,
           mainAxisSize: MainAxisSize.min,
@@ -194,27 +177,20 @@ class _BottomTab4State extends State<BottomTab4> {
                     top: Responsive(context).height(8, tablet: 16, desktop: 20),
                     child: IconButton(
                       onPressed: () => _showPickOptionsDialog(context),
-                      icon: Icon(
-                        Icons.add_a_photo,
-                        color: Colors.blue,
-                        size: Responsive(context).iconSize(24, tablet: 32, desktop: 40),
-                      ),
+                      icon: Icon(Icons.add_a_photo, color: Colors.blue, size: Responsive(context).iconSize(24, tablet: 32, desktop: 40)),
                     ),
                   ),
                 ],
               ),
             ),
 
-            // Hive name display
-            if (hiveStorage != null)
+            // Hive + image name display
+            if (storageHelper != null)
               ValueListenableBuilder(
-                valueListenable: hiveStorage!.listenable(),
+                valueListenable: storageHelper!.listenable(),
                 builder: (context, Box box, _) {
-                  final nameSaved = hiveStorage!.getName();
-                  return Text(
-                    "Name Text: $nameSaved",
-                    style: const TextStyle(fontSize: 18),
-                  );
+                  final nameSaved = storageHelper!.getName();
+                  return Text("Name Text: $nameSaved", style: const TextStyle(fontSize: 18));
                 },
               ),
 
@@ -224,10 +200,7 @@ class _BottomTab4State extends State<BottomTab4> {
               key: _formKey,
               child: TextFormField(
                 controller: nameController,
-                decoration: InputDecoration(
-                  labelText: "Save Name Here",
-                  border: OutlineInputBorder(),
-                ),
+                decoration: InputDecoration(labelText: "Save Name Here", border: OutlineInputBorder()),
                 validator: (value) {
                   if (value == null || value.trim().isEmpty) return "Name cannot be empty";
                   if (value.trim().length < 3) return "Name must be at least 3 characters";
@@ -242,14 +215,9 @@ class _BottomTab4State extends State<BottomTab4> {
               width: double.infinity,
               child: ElevatedButton(
                 onPressed: () {
-                  if (_formKey.currentState!.validate()) {
-                    saveText();
-                  }
+                  if (_formKey.currentState!.validate()) saveText();
                 },
-                child: const Text(
-                  "Save Text",
-                  style: TextStyle(color: Colors.black),
-                ),
+                child: const Text("Save Text", style: TextStyle(color: Colors.black)),
               ),
             ),
           ],
