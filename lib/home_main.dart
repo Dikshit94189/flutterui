@@ -1,5 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_ui/main.dart';
 import 'package:flutter_ui/screens/bottom_tabs/tab_3.dart';
 import 'package:flutter_ui/screens/bottom_tabs/tab_4.dart';
@@ -128,9 +129,8 @@ import 'package:flutter_ui/screens/drawer/drawer_two.dart';
 
 ///  USE DRAWER FROM THIS PACKAGE  ->>>>    https://pub.dev/packages/flutter_slider_drawer/install
 
-import 'package:flutter/cupertino.dart';
-import 'package:flutter/material.dart';
 import 'package:flutter_slider_drawer/flutter_slider_drawer.dart';
+import 'package:flutter_ui/view_model/theme_provider.dart';
 
 class HomePage extends StatefulWidget {
   HomePage({super.key});
@@ -177,7 +177,6 @@ class _HomePageState extends State<HomePage> {
           sliderOpenSize: MediaQuery.of(context).size.width * 0.45,
           animationDuration: 60,
           isDraggable: true,
-          backgroundColor: Colors.blueGrey,
           slideDirection: SlideDirection.leftToRight,
           sliderBoxShadow: SliderBoxShadow(blurRadius:50),
           appBar: SliderAppBar(
@@ -235,72 +234,106 @@ class _HomePageState extends State<HomePage> {
   }
 
   Widget _buildDrawerContent()  {
-    return ListView(
-      padding: EdgeInsets.zero,
-      children: [
-        DrawerHeader(
-          decoration: const BoxDecoration(color: Colors.blue),
-          child: Text(
-            "My Drawer",
-            style: TextStyle(
-              fontFamily: "Raleway",
-              fontWeight: FontWeight.bold,
-              color: Colors.white,
-              fontSize:
-              context.responsive.fontSize(16, tablet: 18, desktop: 20),
+    return Consumer(
+      builder: (context , ref  , _){
+        final themeMode = ref.watch(themeProvider);
+        final isDark = themeMode == ThemeMode.dark;
+        return Column (
+          children: [
+            Expanded(
+              child: ListView(
+                padding: EdgeInsets.zero,
+                children: [
+                  DrawerHeader(
+                    decoration: const BoxDecoration(color: Colors.blue),
+                    child: Text(
+                      "My Drawer",
+                      style: TextStyle(
+                        fontFamily: "Raleway",
+                        fontWeight: FontWeight.bold,
+                        color: Colors.white,
+                        fontSize:
+                        context.responsive.fontSize(16, tablet: 18, desktop: 20),
+                      ),
+                    ),
+                  ),
+                  ListTile(
+                    leading:
+                    Icon(Icons.pages),
+                    title:   Text(
+                      "one",
+                      style: TextStyle(
+                          color: Colors.black,
+                          fontSize: context.responsive.fontSize(16, tablet: 25, desktop: 30),
+
+                          fontFamily: "Raleway", fontWeight: FontWeight.w700),
+                    ),
+                    onTap: () => _navigateToDrawerPage(const DrawerPage1()),
+                  ),
+                  ListTile(
+                    leading:  Icon(Icons.account_circle),
+                    title:  Text(
+                      "Two",
+                      style: TextStyle(
+                          color: Colors.black,
+
+                          fontSize: context.responsive.fontSize(16, tablet: 25, desktop: 30),
+                          fontFamily: "Raleway", fontWeight: FontWeight.w900),
+                    ),
+                    onTap: () => _navigateToDrawerPage(const DrawerPage2()),
+                  ),
+                  ListTile(
+                    leading:   Icon(Icons.settings),
+                    title:   Text(
+                      "Three",
+                      style: TextStyle(
+                          color: Colors.black,
+
+                          fontSize: context.responsive.fontSize(16, tablet: 25, desktop: 30),
+
+                          fontFamily: "Raleway", fontWeight: FontWeight.w900),
+                    ),
+                    onTap: () => _navigateToDrawerPage(const DrawerPage3()),
+                  ),
+                  ListTile(
+                    leading:  Icon(Icons.info),
+                    title:  Text(
+                      "Four",
+                      style: TextStyle(
+                          color: Colors.black,
+                          fontSize: context.responsive.fontSize(16, tablet: 25, desktop: 30),
+                          fontFamily: "Raleway", fontWeight: FontWeight.w900),
+                    ),
+                    onTap: () => _navigateToDrawerPage(const DrawerPage4()),
+                  ),
+
+                  ListTile(
+                    leading: Icon(isDark ? Icons.dark_mode : Icons.light_mode),
+                    title: Text(
+                      isDark ? "Switch to Light Mode" : "Switch to Dark Mode",
+                      style: TextStyle(
+                        fontFamily: "Raleway",
+                        fontWeight: FontWeight.bold,
+                        color: Colors.black,
+                        fontSize: context.responsive.fontSize(16, tablet: 25, desktop: 30),
+                      ),
+                    ),
+                    onTap: () {
+                      ref.read(themeProvider.notifier).toggleTheme();
+                      _sliderDrawerKey.currentState?.closeSlider();
+                    },
+                  ),
+
+
+
+                ],
+              ),
             ),
-          ),
-        ),
-        ListTile(
-          leading:
-          Icon(Icons.pages),
-          title:   Text(
-            "one",
-            style: TextStyle(
-                color: Colors.black,
-                fontSize: context.responsive.fontSize(16, tablet: 25, desktop: 30),
 
-                fontFamily: "Raleway", fontWeight: FontWeight.w700),
-          ),
-          onTap: () => _navigateToDrawerPage(const DrawerPage1()),
-        ),
-        ListTile(
-          leading:  Icon(Icons.account_circle),
-          title:  Text(
-            "Two",
-            style: TextStyle(
-                color: Colors.black,
+          ],
+        );
 
-                fontSize: context.responsive.fontSize(16, tablet: 25, desktop: 30),
-                fontFamily: "Raleway", fontWeight: FontWeight.w900),
-          ),
-          onTap: () => _navigateToDrawerPage(const DrawerPage2()),
-        ),
-        ListTile(
-          leading:   Icon(Icons.settings),
-          title:   Text(
-            "Three",
-            style: TextStyle(
-                color: Colors.black,
-
-                fontSize: context.responsive.fontSize(16, tablet: 25, desktop: 30),
-
-                fontFamily: "Raleway", fontWeight: FontWeight.w900),
-          ),
-          onTap: () => _navigateToDrawerPage(const DrawerPage3()),
-        ),
-        ListTile(
-          leading:  Icon(Icons.info),
-          title:  Text(
-            "Four",
-            style: TextStyle(
-              color: Colors.black,
-                fontSize: context.responsive.fontSize(16, tablet: 25, desktop: 30),
-                fontFamily: "Raleway", fontWeight: FontWeight.w900),
-          ),
-          onTap: () => _navigateToDrawerPage(const DrawerPage4()),
-        ),
-      ],
+      },
     );
   }
 }
