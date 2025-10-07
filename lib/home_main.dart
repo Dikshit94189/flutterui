@@ -130,10 +130,11 @@ import 'package:flutter_ui/screens/drawer/drawer_two.dart';
 ///  USE DRAWER FROM THIS PACKAGE  ->>>>    https://pub.dev/packages/flutter_slider_drawer/install
 
 import 'package:flutter_slider_drawer/flutter_slider_drawer.dart';
+import 'package:flutter_ui/theme_helper/app_theme_helper.dart';
 import 'package:flutter_ui/view_model/theme_provider.dart';
 
 class HomePage extends StatefulWidget {
-  HomePage({super.key});
+  const HomePage({super.key});
 
   @override
   State<HomePage> createState() => _HomePageState();
@@ -164,176 +165,167 @@ class _HomePageState extends State<HomePage> {
       context,
       CupertinoPageRoute(builder: (context) => page),
     );
-    _sliderDrawerKey.currentState?.closeSlider(); // close drawer after navigation
+    _sliderDrawerKey.currentState?.closeSlider();
   }
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      body: SafeArea(
-        child: SliderDrawer(
-          key: _sliderDrawerKey,
-          // sliderOpenSize: 190, // width of the drawer
-          sliderOpenSize: MediaQuery.of(context).size.width * 0.45,
-          animationDuration: 60,
-          isDraggable: true,
-          slideDirection: SlideDirection.leftToRight,
-          sliderBoxShadow: SliderBoxShadow(blurRadius:50),
-          appBar: SliderAppBar(
-            config: SliderAppBarConfig(
-              drawerIconColor: Colors.black,
-              // appBarColor: Colors.blue,
-              title: Text(
-                title,
-                textAlign: TextAlign.center,
-                style: const TextStyle(
-                  fontSize: 22,
-                  fontWeight: FontWeight.w700,
-                  fontFamily: "Raleway",
+    return Consumer(
+      builder: (context, ref, _) {
+        final themeHelper = AppThemeHelper(ref);
+
+        return Scaffold(
+          body: SafeArea(
+            child: SliderDrawer(
+              key: _sliderDrawerKey,
+              sliderOpenSize: MediaQuery.of(context).size.width * 0.45,
+              animationDuration: 60,
+              isDraggable: true,
+              slideDirection: SlideDirection.leftToRight,
+              sliderBoxShadow:  SliderBoxShadow(blurRadius: 50),
+              appBar: SliderAppBar(
+                 config: SliderAppBarConfig(
+                   backgroundColor: themeHelper.appBarColor,
+                   drawerIconColor: themeHelper.textColor,
+                  title: Text(
+                    title,
+                    textAlign: TextAlign.center,
+                    style: TextStyle(
+                      fontSize: 22,
+                      fontWeight: FontWeight.w700,
+                      fontFamily: "Raleway",
+                      color: themeHelper.textColor,
+                    ),
+                  ),
+                ),
+              ),
+              slider: _buildDrawerContent(ref),
+              child: GestureDetector(
+                onTap: () {
+                  if (_sliderDrawerKey.currentState!.isDrawerOpen) {
+                    _sliderDrawerKey.currentState!.closeSlider();
+                  }
+                },
+                child: Scaffold(
+                  body: _bottomTabs[_currentIndex],
+                  bottomNavigationBar: BottomNavigationBar(
+                    currentIndex: _currentIndex,
+                    onTap: _onBottomNavTapped,
+                    type: BottomNavigationBarType.fixed,
+                    items: const [
+                      BottomNavigationBarItem(
+                        icon: Icon(Icons.home),
+                        label: "Home",
+                      ),
+                      BottomNavigationBarItem(
+                        icon: Icon(CupertinoIcons.search_circle_fill),
+                        label: "Search",
+                      ),
+                      BottomNavigationBarItem(
+                        icon: Icon(CupertinoIcons.waveform_path_ecg),
+                        label: "Web View",
+                      ),
+                      BottomNavigationBarItem(
+                        icon: Icon(CupertinoIcons.profile_circled),
+                        label: "Profile",
+                      ),
+                    ],
+                  ),
                 ),
               ),
             ),
           ),
-          slider: _buildDrawerContent(),
-          child: GestureDetector(
-            onTap: (){
-              if (_sliderDrawerKey.currentState!.isDrawerOpen) {
-                _sliderDrawerKey.currentState!.closeSlider();
-              }
-            },
-            child: Scaffold(
-              body: _bottomTabs[_currentIndex],
-              bottomNavigationBar: BottomNavigationBar(
-                currentIndex: _currentIndex,
-                onTap: _onBottomNavTapped,
-                type: BottomNavigationBarType.fixed,
-                items: const [
-                  BottomNavigationBarItem(
-                    icon: Icon(Icons.home),
-                    label: "Home",
-                  ),
-                  BottomNavigationBarItem(
-                    icon: Icon(CupertinoIcons.search_circle_fill),
-                    label: "Search",
-                  ),
-                  BottomNavigationBarItem(
-                    icon: Icon(CupertinoIcons.waveform_path_ecg),
-                    label: "Web View",
-                  ),
-                  BottomNavigationBarItem(
-                    icon: Icon(CupertinoIcons.profile_circled),
-                    label: "Profile",
-                  ),
-                ],
-              ),
-            ),
-          ),
-        ),
-      ),
+        );
+      },
     );
   }
 
-  Widget _buildDrawerContent()  {
-    return Consumer(
-      builder: (context , ref  , _){
-        final themeMode = ref.watch(themeProvider);
-        final isDark = themeMode == ThemeMode.dark;
-        return Column (
-          children: [
-            Expanded(
-              child: ListView(
-                padding: EdgeInsets.zero,
-                children: [
-                  DrawerHeader(
-                    decoration: const BoxDecoration(color: Colors.blue),
-                    child: Text(
-                      "My Drawer",
-                      style: TextStyle(
-                        fontFamily: "Raleway",
-                        fontWeight: FontWeight.bold,
-                        color: Colors.white,
-                        fontSize:
-                        context.responsive.fontSize(16, tablet: 18, desktop: 20),
-                      ),
-                    ),
+  Widget _buildDrawerContent(WidgetRef ref) {
+    final themeMode = ref.watch(themeProvider);
+    final isDark = themeMode == ThemeMode.dark;
+
+    return Column(
+      children: [
+        Expanded(
+          child: ListView(
+            padding: EdgeInsets.zero,
+            children: [
+              DrawerHeader(
+                decoration: BoxDecoration(
+                    color: isDark ? Colors.grey[900] : Colors.blue),
+                child: Text(
+                  "My Drawer",
+                  style: TextStyle(
+                    fontFamily: "Raleway",
+                    fontWeight: FontWeight.bold,
+                    color: Colors.white,
+                    fontSize: 18,
                   ),
-                  ListTile(
-                    leading:
-                    Icon(Icons.pages),
-                    title:   Text(
-                      "one",
-                      style: TextStyle(
-                          color: Colors.black,
-                          fontSize: context.responsive.fontSize(16, tablet: 25, desktop: 30),
-
-                          fontFamily: "Raleway", fontWeight: FontWeight.w700),
-                    ),
-                    onTap: () => _navigateToDrawerPage(const DrawerPage1()),
-                  ),
-                  ListTile(
-                    leading:  Icon(Icons.account_circle),
-                    title:  Text(
-                      "Two",
-                      style: TextStyle(
-                          color: Colors.black,
-
-                          fontSize: context.responsive.fontSize(16, tablet: 25, desktop: 30),
-                          fontFamily: "Raleway", fontWeight: FontWeight.w900),
-                    ),
-                    onTap: () => _navigateToDrawerPage(const DrawerPage2()),
-                  ),
-                  ListTile(
-                    leading:   Icon(Icons.settings),
-                    title:   Text(
-                      "Three",
-                      style: TextStyle(
-                          color: Colors.black,
-
-                          fontSize: context.responsive.fontSize(16, tablet: 25, desktop: 30),
-
-                          fontFamily: "Raleway", fontWeight: FontWeight.w900),
-                    ),
-                    onTap: () => _navigateToDrawerPage(const DrawerPage3()),
-                  ),
-                  ListTile(
-                    leading:  Icon(Icons.info),
-                    title:  Text(
-                      "Four",
-                      style: TextStyle(
-                          color: Colors.black,
-                          fontSize: context.responsive.fontSize(16, tablet: 25, desktop: 30),
-                          fontFamily: "Raleway", fontWeight: FontWeight.w900),
-                    ),
-                    onTap: () => _navigateToDrawerPage(const DrawerPage4()),
-                  ),
-
-                  ListTile(
-                    leading: Icon(isDark ? Icons.dark_mode : Icons.light_mode),
-                    title: Text(
-                      isDark ? "Switch to Light Mode" : "Switch to Dark Mode",
-                      style: TextStyle(
-                        fontFamily: "Raleway",
-                        fontWeight: FontWeight.bold,
-                        color: Colors.black,
-                        fontSize: context.responsive.fontSize(16, tablet: 25, desktop: 30),
-                      ),
-                    ),
-                    onTap: () {
-                      ref.read(themeProvider.notifier).toggleTheme();
-                      _sliderDrawerKey.currentState?.closeSlider();
-                    },
-                  ),
-
-
-
-                ],
+                ),
               ),
-            ),
-
-          ],
-        );
-
-      },
+              ListTile(
+                leading: const Icon(Icons.pages),
+                title: Text(
+                  "One",
+                  style: TextStyle(
+                      color: isDark ? Colors.white : Colors.black,
+                      fontFamily: "Raleway",
+                      fontWeight: FontWeight.w700),
+                ),
+                onTap: () => _navigateToDrawerPage(const DrawerPage1()),
+              ),
+              ListTile(
+                leading: const Icon(Icons.account_circle),
+                title: Text(
+                  "Two",
+                  style: TextStyle(
+                      color: isDark ? Colors.white : Colors.black,
+                      fontFamily: "Raleway",
+                      fontWeight: FontWeight.w900),
+                ),
+                onTap: () => _navigateToDrawerPage(const DrawerPage2()),
+              ),
+              ListTile(
+                leading: const Icon(Icons.settings),
+                title: Text(
+                  "Three",
+                  style: TextStyle(
+                      color: isDark ? Colors.white : Colors.black,
+                      fontFamily: "Raleway",
+                      fontWeight: FontWeight.w900),
+                ),
+                onTap: () => _navigateToDrawerPage(const DrawerPage3()),
+              ),
+              ListTile(
+                leading: const Icon(Icons.info),
+                title: Text(
+                  "Four",
+                  style: TextStyle(
+                      color: isDark ? Colors.white : Colors.black,
+                      fontFamily: "Raleway",
+                      fontWeight: FontWeight.w900),
+                ),
+                onTap: () => _navigateToDrawerPage(const DrawerPage4()),
+              ),
+              ListTile(
+                leading: Icon(isDark ? Icons.dark_mode : Icons.light_mode,
+                    color: isDark ? Colors.white : Colors.black),
+                title: Text(
+                  isDark ? "Switch to Light Mode" : "Switch to Dark Mode",
+                  style: TextStyle(
+                    fontFamily: "Raleway",
+                    fontWeight: FontWeight.bold,
+                    color: isDark ? Colors.white : Colors.black,
+                  ),
+                ),
+                onTap: () {
+                  ref.read(themeProvider.notifier).toggleTheme();
+                },
+              ),
+            ],
+          ),
+        ),
+      ],
     );
   }
 }
