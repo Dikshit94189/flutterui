@@ -25,12 +25,31 @@ class MyApp extends ConsumerWidget {
     return MaterialApp(
       title: 'Flutter Demo',
       darkTheme: ThemeData.dark(useMaterial3: true),
-      debugShowCheckedModeBanner: false,
-      theme: ThemeData.light(
+      // theme: ThemeData.light(
+      //   useMaterial3: true,
+      //   // colorScheme: ColorScheme.light(primary: Colors.blue ,
+      //   // brightness: Brightness.light,
+      //   // ),
+      // ),
+      theme: ThemeData(
         useMaterial3: true,
-        // colorScheme: ColorScheme.light(primary: Colors.blue ,
-        // brightness: Brightness.light,
-        // ),
+        primaryColor: Colors.blue, // app’s primary accent color
+        scaffoldBackgroundColor: Colors.white,
+        appBarTheme: const AppBarTheme(
+          backgroundColor: Colors.blue,
+          foregroundColor: Colors.white,
+        ),
+        textTheme: const TextTheme(
+          bodyLarge: TextStyle(color: Colors.black87),
+          bodyMedium: TextStyle(color: Colors.black54),
+        ),
+        colorScheme: const ColorScheme.light(
+          primary: Colors.blue,
+          secondary: Colors.orange,
+          surface: Colors.white,
+          onPrimary: Colors.white,
+          onSecondary: Colors.black,
+        ),
       ),
       themeMode:themeMode ,
       home: HomePage(),
