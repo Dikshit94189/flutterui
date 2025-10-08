@@ -173,7 +173,6 @@ class _HomePageState extends State<HomePage> {
     return Consumer(
       builder: (context, ref, _) {
         final themeHelper = AppThemeHelper(ref);
-
         return Scaffold(
           body: SafeArea(
             child: SliderDrawer(

@@ -38,115 +38,119 @@ class _BottomTab1State extends State<BottomTab1>
       length: 2,
       child: Column(
         children: [
-      SizedBox(
-      height: context.responsive.height(35, tablet: 50, desktop: 60),
-       child: Row(
-         children: [
-           /// 👇 Expanded so TabBar takes available space
-           Expanded(
-             child: TabBar(
-               controller: _tabController,
-               isScrollable: true,
-               physics: const BouncingScrollPhysics(),
-               dividerColor: Colors.transparent,
-               indicator: const BoxDecoration(), // disable default indicator
-               labelPadding: EdgeInsets.zero, // 👈 we handle spacing via margin
-               tabAlignment: TabAlignment.start,
-               tabs: [
-                 // ---- First Tab
-                 Container(
-                   margin: EdgeInsets.symmetric( // 👈 external spacing (gap between tabs)
-                     horizontal: context.responsive.width(4, tablet: 8, desktop: 12),
-                   ),
-                   padding: EdgeInsets.symmetric( // 👈 inner spacing
-                     horizontal: context.responsive.width(10, tablet: 20, desktop: 30),
-                     vertical: context.responsive.height(2, tablet: 4, desktop: 8),
-                   ),
-                   decoration: BoxDecoration(
-                     borderRadius: BorderRadius.circular(8),
-                     color: _selectedIndex == 0 ? Colors.blue : Colors.transparent,
-                     border: Border.all(
-                       color: _selectedIndex == 0 ? Colors.black : Colors.grey,
-                       width: 1.5,
+      Padding(
+        padding: EdgeInsets.only(top: 10),
+        child: SizedBox(
+        height: context.responsive.height(35, tablet: 50, desktop: 60),
+         child: Row(
+           children: [
+             /// 👇 Expanded so TabBar takes available space
+             Expanded(
+               child: TabBar(
+                 controller: _tabController,
+                 isScrollable: true,
+                 physics: const BouncingScrollPhysics(),
+                 dividerColor: Colors.transparent,
+                 indicator: const BoxDecoration(), // disable default indicator
+                 labelPadding: EdgeInsets.zero, // 👈 we handle spacing via margin
+                 tabAlignment: TabAlignment.start,
+                 tabs: [
+                   // ---- First Tab
+                   Container(
+                     margin: EdgeInsets.symmetric( // 👈 external spacing (gap between tabs)
+                       horizontal: context.responsive.width(4, tablet: 8, desktop: 12),
                      ),
-                   ),
-                   child: Row(
-                     mainAxisSize: MainAxisSize.min,
-                     children: [
-                       Icon(
-                         Icons.home,
-                         size: context.responsive.iconSize(28, tablet: 32, desktop: 36),
+                     padding: EdgeInsets.symmetric( // 👈 inner spacing
+                       horizontal: context.responsive.width(10, tablet: 20, desktop: 30),
+                       vertical: context.responsive.height(2, tablet: 4, desktop: 8),
+                     ),
+                     decoration: BoxDecoration(
+                       borderRadius: BorderRadius.circular(8),
+                       color: _selectedIndex == 0 ? Colors.blue : Colors.transparent,
+                       border: Border.all(
                          color: _selectedIndex == 0 ? Colors.black : Colors.grey,
+                         width: 1.5,
                        ),
-                       SizedBox(
-                         width: context.responsive.width(4, tablet: 6, desktop: 8),
-                       ),
-                       Text(
-                         "HOME",
-                         style: TextStyle(
-                           fontSize: context.responsive.fontSize(10, tablet: 14, desktop: 20),
+                     ),
+                     child: Row(
+                       mainAxisSize: MainAxisSize.min,
+                       children: [
+                         Icon(
+                           Icons.home,
+                           size: context.responsive.iconSize(28, tablet: 32, desktop: 36),
                            color: _selectedIndex == 0 ? Colors.black : Colors.grey,
                          ),
-                       ),
-                     ],
-                   ),
-                 ),
-
-                 // ---- Second Tab
-                 Container(
-                   margin: EdgeInsets.symmetric( // 👈 same external spacing
-                     horizontal: context.responsive.width(4, tablet: 8, desktop: 12),
-                   ),
-                   padding: EdgeInsets.symmetric(
-                     horizontal: context.responsive.width(10, tablet: 20, desktop: 30),
-                     vertical: context.responsive.height(2, tablet: 4, desktop: 8),
-                   ),
-                   decoration: BoxDecoration(
-                     borderRadius: BorderRadius.circular(8),
-                     color: _selectedIndex == 1 ? Colors.blue : Colors.transparent,
-                     border: Border.all(
-                       color: _selectedIndex == 1 ? Colors.black : Colors.grey,
-                       width: 1.5,
+                         SizedBox(
+                           width: context.responsive.width(4, tablet: 6, desktop: 8),
+                         ),
+                         Text(
+                           "HOME",
+                           style: TextStyle(
+                             fontSize: context.responsive.fontSize(10, tablet: 14, desktop: 20),
+                             color: _selectedIndex == 0 ? Colors.black : Colors.grey,
+                           ),
+                         ),
+                       ],
                      ),
                    ),
-                   child: Row(
-                     mainAxisSize: MainAxisSize.min,
-                     children: [
-                       Icon(
-                         Icons.tv_sharp,
-                         size: context.responsive.iconSize(28, tablet: 32, desktop: 36),
-                         color: _selectedIndex == 1 ? Colors.black : Colors.blue,
-                       ),
-                       SizedBox(
-                         width: context.responsive.width(4, tablet: 6, desktop: 8),
-                       ),
-                       Text(
-                         "SHOWS",
-                         style: TextStyle(
-                           fontSize: context.responsive.fontSize(10, tablet: 14, desktop: 20),
-                           color: _selectedIndex == 1 ? Colors.black: Colors.blue,
-                         ),
-                       ),
-                     ],
-                   ),
-                 ),
-               ],
-             ),
-           ),
 
-           /// 👇 Search icon at the end
-           IconButton(
-             icon: Icon(
-               Icons.search,
-               size: context.responsive.iconSize(25, tablet: 38, desktop: 45),
+                   // ---- Second Tab
+                   Container(
+                     margin: EdgeInsets.symmetric( // 👈 same external spacing
+                       horizontal: context.responsive.width(4, tablet: 8, desktop: 12),
+                     ),
+                     padding: EdgeInsets.symmetric(
+                       horizontal: context.responsive.width(10, tablet: 20, desktop: 30),
+                       vertical: context.responsive.height(2, tablet: 4, desktop: 8),
+                     ),
+                     decoration: BoxDecoration(
+                       borderRadius: BorderRadius.circular(8),
+                       color: _selectedIndex == 1 ? Colors.blue : Colors.transparent,
+                       border: Border.all(
+                         color: _selectedIndex == 1 ? Colors.black : Colors.grey,
+                         width: 1.5,
+                       ),
+                     ),
+                     child: Row(
+                       mainAxisSize: MainAxisSize.min,
+                       children: [
+                         Icon(
+                           Icons.tv_sharp,
+                           size: context.responsive.iconSize(28, tablet: 32, desktop: 36),
+                           color: _selectedIndex == 1 ? Colors.black : Colors.blue,
+                         ),
+                         SizedBox(
+                           width: context.responsive.width(4, tablet: 6, desktop: 8),
+                         ),
+                         Text(
+                           "SHOWS",
+                           style: TextStyle(
+                             fontSize: context.responsive.fontSize(10, tablet: 14, desktop: 20),
+                             color: _selectedIndex == 1 ? Colors.black: Colors.blue,
+                           ),
+                         ),
+                       ],
+                     ),
+                   ),
+                 ],
+               ),
              ),
-             onPressed: () {
-               print("Search tapped!");
-             },
-           ),
-         ],
-       ),
-     ),
+
+             /// 👇 Search icon at the end
+             IconButton(
+               icon: Icon(
+                 Icons.search,
+                 size: context.responsive.iconSize(25, tablet: 38, desktop: 45),
+               ),
+               onPressed: () {
+                 print("Search tapped!");
+               },
+             ),
+           ],
+         ),
+             ),
+      ),
+
 
      Expanded(
             child: TabBarView(
@@ -157,9 +161,13 @@ class _BottomTab1State extends State<BottomTab1>
               ],
             ),
           ),
+
+
+
+
         ],
       ),
-    );
+         );
 
     // return DefaultTabController(
     //   length: 2,
