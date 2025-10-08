@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:animated_text_kit/animated_text_kit.dart';
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:cupertino_calendar_picker/cupertino_calendar_picker.dart';
@@ -316,14 +318,39 @@ class _HomeTabState extends ConsumerState<HomeTab> {
   final CarouselSliderController _controller = CarouselSliderController();
   int _currentIndex = 0;
 
-
+  final ScrollController _scrollController = ScrollController();
+  Timer? _autoScrollTimer;
 
   @override
   void initState() {
+    _startAutoScroll();
     super.initState();
   }
 
+  void _startAutoScroll() {
+    const scrollSpeed = 1.0; // pixels per tick
+    const interval = Duration(milliseconds: 30); // speed of scroll
 
+    _autoScrollTimer = Timer.periodic(interval, (timer) {
+      if (_scrollController.hasClients) {
+        final maxScroll = _scrollController.position.maxScrollExtent;
+        final current = _scrollController.offset + scrollSpeed;
+
+        if (current >= maxScroll) {
+          _scrollController.jumpTo(0); // loop back to start
+        } else {
+          _scrollController.jumpTo(current);
+        }
+      }
+    });
+  }
+
+  @override
+  void dispose() {
+    _autoScrollTimer?.cancel();
+    _scrollController.dispose();
+    super.dispose();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -553,6 +580,7 @@ class _HomeTabState extends ConsumerState<HomeTab> {
                   SizedBox(
                     height: 160,
                     child: ListView.builder(
+                      controller: _scrollController,
                       itemCount: state.hasValue ? state.value!.length : 0,
                       scrollDirection: Axis.horizontal,
                       physics: const BouncingScrollPhysics(),

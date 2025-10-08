@@ -26,12 +26,6 @@ class MyApp extends ConsumerWidget {
       title: 'Flutter Demo',
       darkTheme: ThemeData.dark(useMaterial3: true),
       debugShowCheckedModeBanner: false,
-      // theme: ThemeData.light(
-      //   useMaterial3: true,
-      //   // colorScheme: ColorScheme.light(primary: Colors.blue ,
-      //   // brightness: Brightness.light,
-      //   // ),
-      // ),
       theme: ThemeData(
         useMaterial3: true,
         primaryColor: Colors.blue, // app’s primary accent color
