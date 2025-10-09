@@ -147,6 +147,8 @@ class _HomePageState extends State<HomePage> {
   int _currentIndex = 0;
   String title = "App Base";
 
+  String Name = "---";
+
   final List<Widget> _bottomTabs = [
     BottomTab1(),
     BottomTab2(),
@@ -253,7 +255,7 @@ class _HomePageState extends State<HomePage> {
                 decoration: BoxDecoration(
                     color: isDark ? Colors.grey[900] : Colors.blue),
                 child: Text(
-                  "My Drawer",
+                    "$Name",
                   style: TextStyle(
                     fontFamily: "Raleway",
                     fontWeight: FontWeight.bold,
