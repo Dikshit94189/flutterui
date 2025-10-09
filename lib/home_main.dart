@@ -265,7 +265,7 @@ class _HomePageState extends State<HomePage> {
               ListTile(
                 leading: const Icon(Icons.pages),
                 title: Text(
-                  "One",
+                  "DashBorad",
                   style: TextStyle(
                       color: isDark ? Colors.white : Colors.black,
                       fontFamily: "Raleway",
@@ -274,9 +274,9 @@ class _HomePageState extends State<HomePage> {
                 onTap: () => _navigateToDrawerPage(const DrawerPage1()),
               ),
               ListTile(
-                leading: const Icon(Icons.account_circle),
+                leading: const Icon(Icons.help_outline),
                 title: Text(
-                  "Two",
+                  "Help / Support",
                   style: TextStyle(
                       color: isDark ? Colors.white : Colors.black,
                       fontFamily: "Raleway",
@@ -285,9 +285,9 @@ class _HomePageState extends State<HomePage> {
                 onTap: () => _navigateToDrawerPage(const DrawerPage2()),
               ),
               ListTile(
-                leading: const Icon(Icons.settings),
+                leading: const Icon(Icons.info_outline),
                 title: Text(
-                  "Three",
+                  "About",
                   style: TextStyle(
                       color: isDark ? Colors.white : Colors.black,
                       fontFamily: "Raleway",
@@ -296,9 +296,9 @@ class _HomePageState extends State<HomePage> {
                 onTap: () => _navigateToDrawerPage(const DrawerPage3()),
               ),
               ListTile(
-                leading: const Icon(Icons.info),
+                leading: const Icon(Icons.logout),
                 title: Text(
-                  "Four",
+                  "Logout",
                   style: TextStyle(
                       color: isDark ? Colors.white : Colors.black,
                       fontFamily: "Raleway",

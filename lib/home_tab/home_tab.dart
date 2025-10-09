@@ -361,7 +361,7 @@ class _HomeTabState extends ConsumerState<HomeTab> {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           mainAxisAlignment: MainAxisAlignment.start,
-          children: <Widget>  [
+          children: <Widget>[
             const SizedBox(height: 10),
 
             /// Carousel Slider with indicator
@@ -373,32 +373,36 @@ class _HomeTabState extends ConsumerState<HomeTab> {
                   crossAxisAlignment: CrossAxisAlignment.center,
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
-                CarouselSlider(
-                items: images.map((image) {
-                  return ClipRRect(
-                    borderRadius: BorderRadius.circular(12),
-                    child: CachedNetworkImage(
-                      imageUrl: image.downloadUrl,
-                      width: double.infinity,
-                      fit: BoxFit.fill,
-                      placeholder: (context, url) => const Center(child: CircularProgressIndicator()),
-                      errorWidget: (context, url, error) => const Icon(Icons.error, color: Colors.red),
+                    CarouselSlider(
+                      items: images.map((image) {
+                        return ClipRRect(
+                          borderRadius: BorderRadius.circular(12),
+                          child: CachedNetworkImage(
+                            imageUrl: image.downloadUrl,
+                            width: double.infinity,
+                            fit: BoxFit.fill,
+                            placeholder: (context, url) =>
+                            const Center(child: CircularProgressIndicator()),
+                            errorWidget: (context, url, error) =>
+                            const Icon(Icons.error, color: Colors.red),
+                          ),
+                        );
+                      }).toList(),
+                      options: CarouselOptions(
+                        height: context.responsive.height(
+                            150, tablet: 200, desktop: 250),
+                        aspectRatio: context.responsive.width(
+                            16 / 9, tablet: 4 / 3, desktop: 16 / 7),
+                        enlargeCenterPage: true,
+                        autoPlay: true,
+                        onPageChanged: (index, reason) {
+                          setState(() {
+                            _currentIndex = index;
+                          });
+                        },
+                      ),
+                      carouselController: _controller, // Use carouselController in v5.x
                     ),
-                  );
-                }).toList(),
-                options: CarouselOptions(
-                height: context.responsive.height(150, tablet: 200, desktop: 250),
-                aspectRatio: context.responsive.width(16/9, tablet: 4/3, desktop: 16/7),
-                enlargeCenterPage: true,
-                autoPlay: true,
-                onPageChanged: (index, reason) {
-                setState(() {
-                _currentIndex = index;
-                });
-                },
-                ),
-                carouselController: _controller, // Use carouselController in v5.x
-                ),
                     const SizedBox(height: 12),
 
                     AnimatedSmoothIndicator(
@@ -417,14 +421,16 @@ class _HomeTabState extends ConsumerState<HomeTab> {
                   ],
                 );
               },
-              loading: () => const SizedBox(
+              loading: () =>
+              const SizedBox(
                 height: 200,
                 child: Center(child: CircularProgressIndicator()),
               ),
-              error: (e, _) => SizedBox(
-                height: 200,
-                child: Center(child: Text("Error: $e")),
-              ),
+              error: (e, _) =>
+                  SizedBox(
+                    height: 200,
+                    child: Center(child: Text("Error: $e")),
+                  ),
             ),
 
             const SizedBox(height: 20),
@@ -432,16 +438,16 @@ class _HomeTabState extends ConsumerState<HomeTab> {
 
 
             /// 🔹 Responsive Button Example
-        // wherever you build your button
-        // (uses your Responsive class for the button’s size only)
+            // wherever you build your button
+            // (uses your Responsive class for the button’s size only)
 
 
-              SizedBox(height: 20),
+            SizedBox(height: 20),
 
             Padding(
               padding: Responsive(context).symmetric(
-                16,  // mobile horizontal
-                12,  // mobile vertical
+                16, // mobile horizontal
+                12, // mobile vertical
                 tabletH: 24, // tablet horizontal
                 tabletV: 20, // tablet vertical
                 desktopH: 40, // desktop horizontal
@@ -458,77 +464,92 @@ class _HomeTabState extends ConsumerState<HomeTab> {
                     children: [
                       Expanded(
                         child: Builder(
-                          builder: (btnCtx) => SizedBox(
-                            width: Responsive(btnCtx).boxWidth(0.5), // 50% width of screen
-                            // width: Responsive(btnCtx).width(200, tablet: 250, desktop: 300),
-                            height: Responsive(btnCtx).height(50, tablet: 60, desktop: 70),
-                            child: ZomatoButton(
-                              title:'Date Picker',
-                              onTap: () async {
-                                final selected = await showCalendarPicker(
-                                  context: btnCtx, // IMPORTANT: pass the *button* context
-                                  initialDateTime: DateTime.now(),
-                                  minimumDateTime: DateTime(2020, 1, 1),
-                                  maximumDateTime: DateTime(2030, 12, 31),
-                                  mode: CupertinoCalendarMode.date, // use .dateTime to include time
-                                  onDateTimeChanged: (dt) => debugPrint('Touched: $dt'),
-                                  // selectableDayPredicate: (d) => d.isAfter(DateTime.now()), // example
-                                );
-                                if (selected != null) {
-                                  debugPrint('Final date picked: $selected');
-                                }
-                              },
-                            ),
-                          ),
+                          builder: (btnCtx) =>
+                              SizedBox(
+                                width: Responsive(btnCtx).boxWidth(0.5),
+                                // 50% width of screen
+                                // width: Responsive(btnCtx).width(200, tablet: 250, desktop: 300),
+                                height: Responsive(btnCtx).height(
+                                    50, tablet: 60, desktop: 70),
+                                child: ZomatoButton(
+                                  title: 'Date Picker',
+                                  onTap: () async {
+                                    final selected = await showCalendarPicker(
+                                      context: btnCtx,
+                                      // IMPORTANT: pass the *button* context
+                                      initialDateTime: DateTime.now(),
+                                      minimumDateTime: DateTime(2020, 1, 1),
+                                      maximumDateTime: DateTime(2030, 12, 31),
+                                      mode: CupertinoCalendarMode.date,
+                                      // use .dateTime to include time
+                                      onDateTimeChanged: (dt) =>
+                                          debugPrint('Touched: $dt'),
+                                      // selectableDayPredicate: (d) => d.isAfter(DateTime.now()), // example
+                                    );
+                                    if (selected != null) {
+                                      debugPrint(
+                                          'Final date picked: $selected');
+                                    }
+                                  },
+                                ),
+                              ),
                         ),
                       ),
 
                       SizedBox(
                         width: context.responsive.width(
-                          12,       // mobile
+                          12, // mobile
                           tablet: 20,
                           desktop: 32,
                         ),
                       ),
                       Expanded(
                         child: Builder(
-                          builder: (btnCtx) => SizedBox(
-                            width: Responsive(btnCtx).boxWidth(0.5), // 50% width of screen
-                            height: Responsive(btnCtx).height(50, tablet: 60, desktop: 70),
-                            child: Container(
-                               decoration: BoxDecoration(
-                                color: Colors.redAccent, // Zomato-like color
-                                borderRadius: BorderRadius.circular(12),
-                              ),
-                                child: DefaultTextStyle(
-                                  style:   TextStyle(
-                                    fontSize: context.responsive.fontSize(12, tablet: 16 , desktop: 20),
-                                    color: Colors.white,
-                                    fontWeight: FontWeight.bold,
-                                    shadows: [
-                                      Shadow(
-                                        blurRadius: 7.0,
-                                        color: Colors.white,
-                                        offset: Offset(0, 0),
-                                      ),
-                                    ],
-                                  ),
-                                  child: Center(
-                                    child: AnimatedTextKit(
-                                      repeatForever: true,
-                                      animatedTexts: [
-                                        FlickerAnimatedText('Flicker Frenzy' ),
-                                        FlickerAnimatedText('Night Vibes On'),
-                                        FlickerAnimatedText("C'est La Vie !"),
-                                      ],
-                                      onTap: () {
-                                        print("Tap Event");
-                                      },
+                          builder: (btnCtx) =>
+                              SizedBox(
+                                  width: Responsive(btnCtx).boxWidth(0.5),
+                                  // 50% width of screen
+                                  height: Responsive(btnCtx).height(
+                                      50, tablet: 60, desktop: 70),
+                                  child: Container(
+                                    decoration: BoxDecoration(
+                                      color: Colors.redAccent,
+                                      // Zomato-like color
+                                      borderRadius: BorderRadius.circular(12),
                                     ),
-                                  ),
-                                ),
-                            )
-                          ),
+                                    child: DefaultTextStyle(
+                                      style: TextStyle(
+                                        fontSize: context.responsive.fontSize(
+                                            12, tablet: 16, desktop: 20),
+                                        color: Colors.white,
+                                        fontWeight: FontWeight.bold,
+                                        shadows: [
+                                          Shadow(
+                                            blurRadius: 7.0,
+                                            color: Colors.white,
+                                            offset: Offset(0, 0),
+                                          ),
+                                        ],
+                                      ),
+                                      child: Center(
+                                        child: AnimatedTextKit(
+                                          repeatForever: true,
+                                          animatedTexts: [
+                                            FlickerAnimatedText(
+                                                'Flicker Frenzy'),
+                                            FlickerAnimatedText(
+                                                'Night Vibes On'),
+                                            FlickerAnimatedText(
+                                                "C'est La Vie !"),
+                                          ],
+                                          onTap: () {
+                                            print("Tap Event");
+                                          },
+                                        ),
+                                      ),
+                                    ),
+                                  )
+                              ),
                         ),
                       )
                       ,
@@ -538,12 +559,11 @@ class _HomeTabState extends ConsumerState<HomeTab> {
 
                   SizedBox(
                     height: Responsive(context).heights(
-                      12,       // mobile
+                      12, // mobile
                       tablet: 20,
                       desktop: 32,
                     ),
                   ),
-
 
 
                 ],
@@ -552,8 +572,8 @@ class _HomeTabState extends ConsumerState<HomeTab> {
 
             Padding(
               padding: Responsive(context).symmetric(
-                16,  // mobile horizontal
-                12,  // mobile vertical
+                16, // mobile horizontal
+                12, // mobile vertical
                 tabletH: 24, // tablet horizontal
                 tabletV: 20, // tablet vertical
                 desktopH: 40, // desktop horizontal
@@ -598,8 +618,10 @@ class _HomeTabState extends ConsumerState<HomeTab> {
                             child: CachedNetworkImage(
                               imageUrl: image.downloadUrl,
                               fit: BoxFit.cover,
-                              placeholder: (context, url) => const Center(
-                                child: CircularProgressIndicator(strokeWidth: 2),
+                              placeholder: (context, url) =>
+                              const Center(
+                                child: CircularProgressIndicator(
+                                    strokeWidth: 2),
                               ),
                               errorWidget: (context, url, error) =>
                               const Icon(Icons.error, color: Colors.red),
