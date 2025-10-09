@@ -263,7 +263,7 @@ class _HomePageState extends State<HomePage> {
                 ),
               ),
               ListTile(
-                leading: const Icon(Icons.pages),
+                leading: const Icon(Icons.dashboard),
                 title: Text(
                   "DashBorad",
                   style: TextStyle(
