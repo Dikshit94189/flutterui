@@ -13,6 +13,8 @@ class StorageHelper {
   final Box _box;
 
   StorageHelper._internal(this._box);
+  factory StorageHelper.fromBox(Box box) => StorageHelper._internal(box);
+
 
   static Future<StorageHelper> getInstance() async {
     final box = await Hive.openBox(_boxName);

@@ -132,6 +132,9 @@ import 'package:flutter_ui/screens/drawer/drawer_two.dart';
 import 'package:flutter_slider_drawer/flutter_slider_drawer.dart';
 import 'package:flutter_ui/theme_helper/app_theme_helper.dart';
 import 'package:flutter_ui/view_model/theme_provider.dart';
+import 'package:hive/hive.dart';
+
+import 'local_storage/hive_storage.dart';
 
 class HomePage extends StatefulWidget {
   const HomePage({super.key});
@@ -142,7 +145,7 @@ class HomePage extends StatefulWidget {
 
 class _HomePageState extends State<HomePage> {
   final GlobalKey<SliderDrawerState> _sliderDrawerKey =
-  GlobalKey<SliderDrawerState>();
+      GlobalKey<SliderDrawerState>();
 
   int _currentIndex = 0;
   String title = "App Base";
@@ -163,10 +166,7 @@ class _HomePageState extends State<HomePage> {
   }
 
   void _navigateToDrawerPage(Widget page) {
-    Navigator.push(
-      context,
-      CupertinoPageRoute(builder: (context) => page),
-    );
+    Navigator.push(context, CupertinoPageRoute(builder: (context) => page));
     _sliderDrawerKey.currentState?.closeSlider();
   }
 
@@ -183,11 +183,11 @@ class _HomePageState extends State<HomePage> {
               animationDuration: 60,
               isDraggable: true,
               slideDirection: SlideDirection.leftToRight,
-              sliderBoxShadow:  SliderBoxShadow(blurRadius: 50),
+              sliderBoxShadow: SliderBoxShadow(blurRadius: 50),
               appBar: SliderAppBar(
-                 config: SliderAppBarConfig(
-                   backgroundColor: themeHelper.appBarColor,
-                   drawerIconColor: themeHelper.textColor,
+                config: SliderAppBarConfig(
+                  backgroundColor: themeHelper.appBarColor,
+                  drawerIconColor: themeHelper.textColor,
                   title: Text(
                     title,
                     textAlign: TextAlign.center,
@@ -241,9 +241,16 @@ class _HomePageState extends State<HomePage> {
     );
   }
 
+  Future<String> _loadName() async {
+    final helper = await StorageHelper.getInstance();
+    return helper.getName();
+  }
+
   Widget _buildDrawerContent(WidgetRef ref) {
     final themeMode = ref.watch(themeProvider);
     final isDark = themeMode == ThemeMode.dark;
+
+    final storageHelper = StorageHelper.fromBox(Hive.box('LocalStorage'));
 
     return Column(
       children: [
@@ -253,15 +260,17 @@ class _HomePageState extends State<HomePage> {
             children: [
               DrawerHeader(
                 decoration: BoxDecoration(
-                    color: isDark ? Colors.grey[900] : Colors.blue),
-                child: Text(
-                    "$Name",
-                  style: TextStyle(
-                    fontFamily: "Raleway",
-                    fontWeight: FontWeight.bold,
-                    color: Colors.white,
-                    fontSize: 18,
-                  ),
+                  color: isDark ? Colors.grey[900] : Colors.blue,
+                ),
+                child: ValueListenableBuilder(
+                  valueListenable: storageHelper.listenable(),
+                  builder: (context, box, _) {
+                    final name = box.get(
+                      'nameSaveHere',
+                      defaultValue: "Dikshit",
+                    );
+                    return Text(name);
+                  },
                 ),
               ),
               ListTile(
@@ -269,9 +278,10 @@ class _HomePageState extends State<HomePage> {
                 title: Text(
                   "DashBorad",
                   style: TextStyle(
-                      color: isDark ? Colors.white : Colors.black,
-                      fontFamily: "Raleway",
-                      fontWeight: FontWeight.w700),
+                    color: isDark ? Colors.white : Colors.black,
+                    fontFamily: "Raleway",
+                    fontWeight: FontWeight.w700,
+                  ),
                 ),
                 onTap: () => _navigateToDrawerPage(const DrawerPage1()),
               ),
@@ -280,9 +290,10 @@ class _HomePageState extends State<HomePage> {
                 title: Text(
                   "Help / Support",
                   style: TextStyle(
-                      color: isDark ? Colors.white : Colors.black,
-                      fontFamily: "Raleway",
-                      fontWeight: FontWeight.w900),
+                    color: isDark ? Colors.white : Colors.black,
+                    fontFamily: "Raleway",
+                    fontWeight: FontWeight.w900,
+                  ),
                 ),
                 onTap: () => _navigateToDrawerPage(const DrawerPage2()),
               ),
@@ -291,9 +302,10 @@ class _HomePageState extends State<HomePage> {
                 title: Text(
                   "About",
                   style: TextStyle(
-                      color: isDark ? Colors.white : Colors.black,
-                      fontFamily: "Raleway",
-                      fontWeight: FontWeight.w900),
+                    color: isDark ? Colors.white : Colors.black,
+                    fontFamily: "Raleway",
+                    fontWeight: FontWeight.w900,
+                  ),
                 ),
                 onTap: () => _navigateToDrawerPage(const DrawerPage3()),
               ),
@@ -302,15 +314,18 @@ class _HomePageState extends State<HomePage> {
                 title: Text(
                   "Logout",
                   style: TextStyle(
-                      color: isDark ? Colors.white : Colors.black,
-                      fontFamily: "Raleway",
-                      fontWeight: FontWeight.w900),
+                    color: isDark ? Colors.white : Colors.black,
+                    fontFamily: "Raleway",
+                    fontWeight: FontWeight.w900,
+                  ),
                 ),
                 onTap: () => _navigateToDrawerPage(const DrawerPage4()),
               ),
               ListTile(
-                leading: Icon(isDark ? Icons.dark_mode : Icons.light_mode,
-                    color: isDark ? Colors.white : Colors.black),
+                leading: Icon(
+                  isDark ? Icons.dark_mode : Icons.light_mode,
+                  color: isDark ? Colors.white : Colors.black,
+                ),
                 title: Text(
                   isDark ? "Light Mode" : "Dark Mode",
                   style: TextStyle(
