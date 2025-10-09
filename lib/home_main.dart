@@ -310,7 +310,7 @@ class _HomePageState extends State<HomePage> {
                 leading: Icon(isDark ? Icons.dark_mode : Icons.light_mode,
                     color: isDark ? Colors.white : Colors.black),
                 title: Text(
-                  isDark ? "Switch to Light Mode" : "Switch to Dark Mode",
+                  isDark ? "Light Mode" : "Dark Mode",
                   style: TextStyle(
                     fontFamily: "Raleway",
                     fontWeight: FontWeight.bold,
