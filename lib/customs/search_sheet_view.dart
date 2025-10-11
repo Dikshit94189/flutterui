@@ -26,9 +26,19 @@ class _ExampleTabWithSheetState extends State<ExampleTabWithSheet>
 
   @override
   Widget build(BuildContext context) {
-    // TODO: implement build
-    throw UnimplementedError();
+    return Scaffold(
+      body: SafeArea(child: Column(
+        children: [
+          Container(
+            height: MediaQuery
+                .sizeOf(context)
+                .height,
+            width: MediaQuery
+                .sizeOf(context)
+                .width,
+          )
+        ],
+      )),
+    );
   }
-
-
-
+}
