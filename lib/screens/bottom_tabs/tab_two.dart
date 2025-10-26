@@ -28,6 +28,27 @@ class BottomTab2 extends StatelessWidget {
     ),
   ];
 
+  final List<Map<String, String>> popularPlaces = const [
+    {
+      'title': 'Machu Picchu',
+      'location': 'Peru',
+      'image':
+      'https://images.unsplash.com/photo-1508264165352-258859e62245?w=800',
+    },
+    {
+      'title': 'Great Wall',
+      'location': 'China',
+      'image':
+      'https://images.unsplash.com/photo-1501785888041-af3ef285b470?w=800',
+    },
+    {
+      'title': 'Eiffel Tower',
+      'location': 'France',
+      'image':
+      'https://images.unsplash.com/photo-1502602898657-3e91760cbb34?w=800',
+    },
+  ];
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -81,41 +102,39 @@ class BottomTab2 extends StatelessWidget {
                 itemCount: featureDestinations.length,
                 itemBuilder: (context, index) {
                   final place = featureDestinations[index];
-                  return ClipRRect(
-                    borderRadius: BorderRadius.circular(20),
-                    child: Stack(
-                      alignment: Alignment.bottomLeft,
-                      children: [
-                        Image.network(
-                          place.image,
-                          width: context.responsive.height(150, tablet: 250, desktop: 360),
-                          fit: BoxFit.cover,
-                        ),
-                        Container(
-                          // width: isDesktop ? 300 : 240,
-                          width: context.responsive.height(150, tablet: 250, desktop: 360),
-                          padding: const EdgeInsets.all(12),
-                          decoration: BoxDecoration(
-                            gradient: LinearGradient(
-                              colors: [
-                                Colors.black.withOpacity(0.6),
-                                Colors.transparent,
-                              ],
-                              begin: Alignment.bottomCenter,
-                              end: Alignment.topCenter,
-                            ),
-                          ),
-                          child: Text(
-                            place.name,
-                            style: const TextStyle(
-                              color: Colors.white,
-                              fontSize: 18,
-                              fontWeight: FontWeight.bold,
-                            ),
+                  return Stack(
+                    alignment: Alignment.bottomLeft,
+                    children: [
+                      Image.network(
+                        place.image,
+                        width: context.responsive.height(150, tablet: 250, desktop: 360),
+                        fit: BoxFit.cover,
+                      ),
+                      Container(
+                        // width: isDesktop ? 300 : 240,
+                        width: context.responsive.height(150, tablet: 250, desktop: 360),
+                        padding: const EdgeInsets.all(12),
+                        decoration: BoxDecoration(
+                          gradient: LinearGradient(
+                            colors: [
+                              Colors.transparent,
+                              Colors.transparent,
+                            ],
+                            // begin: Alignment.bottomCenter,
+                            // end: Alignment.topCenter,
                           ),
                         ),
-                      ],
-                    ),
+                        child: Text(
+                          place.name,
+                          style: TextStyle(
+                            overflow: TextOverflow.ellipsis,
+                            color: Colors.white,
+                            fontSize: 18,
+                            fontWeight: FontWeight.bold,
+                          ),
+                        ),
+                      ),
+                    ],
                   );
                 },
               ),
@@ -132,6 +151,69 @@ class BottomTab2 extends StatelessWidget {
                   ?.copyWith(fontWeight: FontWeight.bold),
             ),
             const SizedBox(height: 16),
+
+            ListView.builder(
+              shrinkWrap: true,
+              physics: const NeverScrollableScrollPhysics(),
+              itemCount: popularPlaces.length,
+              itemBuilder: (context, index) {
+                final place = popularPlaces[index];
+                return Card(
+                  margin: const EdgeInsets.only(bottom: 16),
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(16),
+                  ),
+                  clipBehavior: Clip.hardEdge,
+                  child: Row(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Expanded(
+                        // flex: isDesktop ? 2 : 3,
+                        child: Image.network(
+                          place['image']!,
+                          // height: isDesktop ? 180 : 140,
+                          fit: BoxFit.cover,
+                        ),
+                      ),
+                      Expanded(
+                        flex: 3,
+                        child: Padding(
+                          padding: const EdgeInsets.all(16),
+                          child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              Text(
+                                place['title']!,
+                                style: const TextStyle(
+                                  fontSize: 18,
+                                  fontWeight: FontWeight.bold,
+                                ),
+                              ),
+                              const SizedBox(height: 6),
+                              Text(
+                                place['location']!,
+                                style: TextStyle(
+                                  color: Colors.grey[600],
+                                ),
+                              ),
+                              const SizedBox(height: 10),
+                              Text(
+                                'A must-visit destination with rich culture and breathtaking scenery.',
+                                style: TextStyle(
+                                  color: Colors.grey[700],
+                                  fontSize: 14,
+                                ),
+                              ),
+                            ],
+                          ),
+                        ),
+                      ),
+                    ],
+                  ),
+                );
+              },
+            ),
+
 
 
           ],
