@@ -42,7 +42,11 @@ class BottomTab2 extends StatelessWidget {
               child: Text(
                 'Explore Beautiful Destinations',
                 style: TextStyle(
-                  fontSize: context.responsive.fontSize(12, tablet: 16 , desktop: 20),
+                  fontSize: context.responsive.fontSize(
+                    12,
+                    tablet: 16,
+                    desktop: 20,
+                  ),
                   fontWeight: FontWeight.bold,
                   color: Colors.teal[700],
                 ),
@@ -52,22 +56,82 @@ class BottomTab2 extends StatelessWidget {
             Text(
               'Discover the most amazing places around the world 🌍',
               style: TextStyle(
-                fontSize: context.responsive.fontSize(10, tablet: 16 , desktop: 20),
+                fontSize: context.responsive.fontSize(
+                  10,
+                  tablet: 16,
+                  desktop: 20,
+                ),
                 color: Colors.grey[700],
               ),
             ),
 
             Text(
               'Featured Destinations',
+              style: Theme.of(
+                context,
+              ).textTheme.titleLarge?.copyWith(fontWeight: FontWeight.bold),
+            ),
+            const SizedBox(height: 12),
+
+            SizedBox(
+              height: context.responsive.height(150, tablet: 250, desktop: 360),
+              child: ListView.separated(
+                scrollDirection: Axis.horizontal,
+                separatorBuilder: (_, __) => const SizedBox(width: 12),
+                itemCount: featureDestinations.length,
+                itemBuilder: (context, index) {
+                  final place = featureDestinations[index];
+                  return ClipRRect(
+                    borderRadius: BorderRadius.circular(20),
+                    child: Stack(
+                      alignment: Alignment.bottomLeft,
+                      children: [
+                        Image.network(
+                          place.image,
+                          width: context.responsive.height(150, tablet: 250, desktop: 360),
+                          fit: BoxFit.cover,
+                        ),
+                        Container(
+                          // width: isDesktop ? 300 : 240,
+                          width: context.responsive.height(150, tablet: 250, desktop: 360),
+                          padding: const EdgeInsets.all(12),
+                          decoration: BoxDecoration(
+                            gradient: LinearGradient(
+                              colors: [
+                                Colors.black.withOpacity(0.6),
+                                Colors.transparent,
+                              ],
+                              begin: Alignment.bottomCenter,
+                              end: Alignment.topCenter,
+                            ),
+                          ),
+                          child: Text(
+                            place.name,
+                            style: const TextStyle(
+                              color: Colors.white,
+                              fontSize: 18,
+                              fontWeight: FontWeight.bold,
+                            ),
+                          ),
+                        ),
+                      ],
+                    ),
+                  );
+                },
+              ),
+            ),
+
+            const SizedBox(height: 40),
+
+            // 🔹 POPULAR PLACES LIST
+            Text(
+              'Popular Places',
               style: Theme.of(context)
                   .textTheme
                   .titleLarge
                   ?.copyWith(fontWeight: FontWeight.bold),
             ),
-            const SizedBox(height: 12),
-
-
-
+            const SizedBox(height: 16),
 
 
           ],
