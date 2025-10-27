@@ -148,7 +148,7 @@ class _BottomTab4State extends State<BottomTab4> {
     );
   }
 
-  void saveText() {
+  void saveTexts() {
     final value = nameController.text.trim();
     if (value.isNotEmpty) {
       storageHelper?.setName(value);
@@ -161,6 +161,8 @@ class _BottomTab4State extends State<BottomTab4> {
     Widget imageWidget;
     final double imgWidth = Responsive(context).width(80, tablet: 250, desktop: 300);
     final double imgHeight = Responsive(context).height(80, tablet: 250, desktop: 300);
+
+    final moodColor = selectedColor ?? Colors.grey.shade400;
 
     if (kIsWeb) {
       imageWidget = _webImage != null
@@ -245,20 +247,43 @@ class _BottomTab4State extends State<BottomTab4> {
               width: double.infinity,
               child: ElevatedButton(
                 onPressed: () {
-                  if (_formKey.currentState!.validate()) saveText();
+                  if (_formKey.currentState!.validate()) saveTexts();
                 },
                 child: const Text("Save Text", style: TextStyle(color: Colors.black)),
               ),
             ),
-            
-            
+
+            if (selectedMood != null)
+              Column(
+                children: [
+                  Text(
+                    "Selected Mood: $selectedMood",
+                    style: TextStyle(
+                      fontSize: 18,
+                      color: moodColor,
+                      fontWeight: FontWeight.w600,
+                    ),
+                  ),
+                  const SizedBox(height: 20),
+                ],
+              ),
+
+
+
             SizedBox(
               width: double.infinity,
-              child: ElevatedButton(onPressed: (){
-                Navigator.push(context, CupertinoPageRoute(builder: (context) => ModeTracker()));
-              }
-                  , child: Text("Open Mode Tracker")),
-            )
+              child: ElevatedButton(
+                onPressed: _openMoodTracker,
+                style: ElevatedButton.styleFrom(
+                  backgroundColor: Colors.orangeAccent,
+                  padding: const EdgeInsets.symmetric(vertical: 12),
+                ),
+                child: const Text(
+                  "Open Mood Tracker",
+                  style: TextStyle(color: Colors.white),
+                ),
+              ),
+            ),
             
             
             

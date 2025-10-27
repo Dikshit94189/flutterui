@@ -40,7 +40,7 @@ class _ModeTrackerState extends State<ModeTracker> {
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
-              // Animated Card for selected mood
+              // Animated card for selected mood
               AnimatedContainer(
                 duration: const Duration(milliseconds: 500),
                 curve: Curves.easeInOut,
@@ -114,6 +114,32 @@ class _ModeTrackerState extends State<ModeTracker> {
                     ),
                   );
                 }).toList(),
+              ),
+
+              const SizedBox(height: 40),
+
+              // Save Mood Button
+              ElevatedButton(
+                onPressed: () {
+                  Navigator.pop(context, {
+                    'mood': selectedMood,
+                    'color': moodColor,
+                  });
+                },
+                style: ElevatedButton.styleFrom(
+                  backgroundColor: moodColor,
+                  padding:
+                  const EdgeInsets.symmetric(horizontal: 40, vertical: 14),
+                  shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(12)),
+                ),
+                child: const Text(
+                  "Save Mood",
+                  style: TextStyle(
+                      color: Colors.white,
+                      fontSize: 18,
+                      fontWeight: FontWeight.w600),
+                ),
               ),
             ],
           ),
