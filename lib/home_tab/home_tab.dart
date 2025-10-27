@@ -403,6 +403,7 @@ class _HomeTabState extends ConsumerState<HomeTab> {
                       ),
                       carouselController: _controller, // Use carouselController in v5.x
                     ),
+
                     const SizedBox(height: 12),
 
                     AnimatedSmoothIndicator(

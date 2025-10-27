@@ -33,7 +33,7 @@ class BottomTab2 extends StatelessWidget {
       'title': 'Machu Picchu',
       'location': 'Peru',
       'image':
-      'https://images.unsplash.com/photo-1508264165352-258859e62245?w=800',
+      'https://images.unsplash.com/photo-1507525428034-b723cf961d3e?w=800',
     },
     {
       'title': 'Great Wall',

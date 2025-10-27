@@ -1,5 +1,6 @@
 import 'dart:io';
 import 'package:animate_do/animate_do.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/foundation.dart';
 import 'package:image_picker/image_picker.dart';
@@ -8,6 +9,7 @@ import 'package:hive_flutter/hive_flutter.dart';
 import '../../local_storage/hive_storage.dart';
 import '../../permission_handler/permission_helper.dart';
 import '../../utils/responsive.dart';
+import '../mode_tracker.dart';
 
 class BottomTab4 extends StatefulWidget {
   const BottomTab4({super.key});
@@ -220,6 +222,20 @@ class _BottomTab4State extends State<BottomTab4> {
                 child: const Text("Save Text", style: TextStyle(color: Colors.black)),
               ),
             ),
+            
+            
+            SizedBox(
+              width: double.infinity,
+              child: ElevatedButton(onPressed: (){
+                Navigator.push(context, CupertinoPageRoute(builder: (context) => ModeTracker()));
+              }
+                  , child: Text("Open Mode Tracker")),
+            )
+            
+            
+            
+            
+            
           ],
         ),
       ),
