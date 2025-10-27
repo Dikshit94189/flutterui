@@ -28,10 +28,38 @@ class _BottomTab4State extends State<BottomTab4> {
   final ImagePicker _picker = ImagePicker();
   XFile? _webImage;
 
+  String? selectedMood;
+  Color? selectedColor;
+  final box = Hive.box('LocalStorage');
+
   @override
   void initState() {
     super.initState();
     _initStorage();
+    nameController.text = box.get('name', defaultValue: '') ?? '';
+    selectedMood = box.get('mood');
+  }
+
+  void saveText(){
+    if(_formKey.currentState!.validate()){
+      box.put('name', nameController.text.trim());
+      if(selectedMood != null) box.put('mood', selectedMood);
+      ScaffoldMessenger.of(context).showSnackBar(const SnackBar(content: Text("Saved successfully!")));
+      setState(() {});
+    }
+  }
+
+  Future<void> _openMoodTracker() async{
+    final result = await Navigator.push(
+      context,
+      CupertinoPageRoute(builder: (context) => const ModeTracker()),
+    );
+    if (result != null) {
+      setState(() {
+        selectedMood = result['mood'];
+        selectedColor = result['color'];
+      });
+    }
   }
 
   Future<void> _initStorage() async {
