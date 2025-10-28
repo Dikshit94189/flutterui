@@ -1,3 +1,4 @@
+import 'package:animated_text_kit/animated_text_kit.dart';
 import 'package:flutter/material.dart';
 
 class DrawerPage2 extends StatelessWidget {
@@ -5,10 +6,34 @@ class DrawerPage2 extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(title: const Text("Drawer Page 2")),
-      body: const Center(
-        child: Text("This is Drawer Page 2", style: TextStyle(fontSize: 24)),
+    return MaterialApp(
+      home: Scaffold(
+        backgroundColor: Colors.black,
+        body: Center(
+          child: AnimatedTextKit(
+            animatedTexts: [
+              TypewriterAnimatedText(
+                'Hello there 👋',
+                textStyle: const TextStyle(
+                  fontSize: 32.0,
+                  color: Colors.white,
+                  fontWeight: FontWeight.bold,
+                ),
+                speed: const Duration(milliseconds: 100),
+              ),
+              TypewriterAnimatedText(
+                'Welcome to Flutter World 🚀',
+                textStyle: const TextStyle(
+                  fontSize: 32.0,
+                  color: Colors.tealAccent,
+                  fontWeight: FontWeight.bold,
+                ),
+                speed: const Duration(milliseconds: 100),
+              ),
+            ],
+            totalRepeatCount: 2,
+          ),
+        ),
       ),
     );
   }
