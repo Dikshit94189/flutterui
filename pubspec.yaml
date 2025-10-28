@@ -52,6 +52,7 @@ dependencies:
   webview_flutter: ^4.13.0
   pedometer: ^4.1.1
   flutter_chat_bubble: ^2.0.2
+  flutter_animate: ^4.5.2
 
 dev_dependencies:
   flutter_test:
