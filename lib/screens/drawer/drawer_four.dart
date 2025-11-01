@@ -8,19 +8,31 @@ class DrawerPage4 extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: Colors.black,
-      body: Center(
-        child: AvatarGlow(
-          glowColor: Colors.tealAccent,
-          // endRadius: 120.0,
-          duration: const Duration(seconds: 2),
-          repeat: true,
-          child: const CircleAvatar(
-            radius: 50,
-            backgroundImage: NetworkImage(
-              "https://i.pravatar.cc/300",
-            ),
-          ),
-        ),
+      body: Column(
+        children: [
+
+          Column(
+            children: [
+              Text("Profile Photo" , style: TextStyle(color: Colors.red)),
+              SizedBox(height: 10),
+              AvatarGlow(
+                glowColor: Colors.tealAccent,
+                // endRadius: 120.0,
+                duration  : const Duration(seconds: 2),
+                repeat: true,
+                child: const CircleAvatar(
+                  radius: 50,
+                  backgroundImage: NetworkImage(
+                    "https://i.pravatar.cc/300",
+                  ),
+                ),
+              ),
+
+            ],
+          )
+
+
+        ],
       ),
     );
   }
