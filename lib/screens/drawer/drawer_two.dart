@@ -7,8 +7,11 @@ class DrawerPage2 extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
+      debugShowCheckedModeBanner: false,
       home: Scaffold(
-        backgroundColor: Colors.black,
+        appBar: AppBar(title: Text("Animated Text Class")),
+
+         backgroundColor: Colors.black,
         body: Center(
           child: AnimatedTextKit(
             animatedTexts: [
@@ -23,6 +26,15 @@ class DrawerPage2 extends StatelessWidget {
               ),
               TypewriterAnimatedText(
                 'Welcome to Flutter World 🚀',
+                textStyle: const TextStyle(
+                  fontSize: 32.0,
+                  color: Colors.tealAccent,
+                  fontWeight: FontWeight.bold,
+                ),
+                speed: const Duration(milliseconds: 100),
+              ),
+              TypewriterAnimatedText(
+                'i am good',
                 textStyle: const TextStyle(
                   fontSize: 32.0,
                   color: Colors.tealAccent,

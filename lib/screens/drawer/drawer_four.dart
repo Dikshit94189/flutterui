@@ -48,12 +48,7 @@ class DrawerPage4 extends StatelessWidget {
                   radius: 60,
                   backgroundColor: Colors.white,
                   backgroundImage: NetworkImage(
-                    'https://images.weserv.nl/?url=imagescdn.vanheusenindia.com/img/app/product/3/39946813-19334314.jpg',
-                  ),
-                ),
-              ),
-
-
+                    'https://images.weserv.nl/?url=imagescdn.vanheusenindia.com/img/app/product/3/39946813-19334314.jpg')))
             ],
           ),
         ),
