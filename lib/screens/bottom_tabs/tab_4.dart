@@ -258,7 +258,7 @@ class _BottomTab4State extends State<BottomTab4> {
                 Column(
                   children: [
                     Text(
-                      "Selected Mood: $selectedMood",
+                      "Your Mood: $selectedMood",
                       style: TextStyle(
                         fontSize: 18,
                         color: moodColor,
