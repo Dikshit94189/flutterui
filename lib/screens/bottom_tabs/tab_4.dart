@@ -184,112 +184,114 @@ class _BottomTab4State extends State<BottomTab4> {
       );
     }
 
-    return SafeArea(
-      child: Padding(
-        padding: Responsive(context).symmetric(16, 12, tabletH: 24, tabletV: 20, desktopH: 40, desktopV: 32),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.center,
-          mainAxisSize: MainAxisSize.min,
-          children: [
-            Padding(
-              padding: Responsive(context).padding(12, tablet: 24, desktop: 32),
-              child: Stack(
-                alignment: Alignment.topLeft,
-                children: [
-                  ClipRRect(
-                    borderRadius: BorderRadius.circular(Responsive(context).heights(80)),
-                    child: SizedBox(
-                      width: Responsive(context).width(150, tablet: 250, desktop: 300),
-                      height: Responsive(context).height(150, tablet: 250, desktop: 300),
-                      child: imageWidget,
+    return SingleChildScrollView(
+      child: SafeArea(
+        child: Padding(
+          padding: Responsive(context).symmetric(16, 12, tabletH: 24, tabletV: 20, desktopH: 40, desktopV: 32),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.center,
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              Padding(
+                padding: Responsive(context).padding(12, tablet: 24, desktop: 32),
+                child: Stack(
+                  alignment: Alignment.topLeft,
+                  children: [
+                    ClipRRect(
+                      borderRadius: BorderRadius.circular(Responsive(context).heights(80)),
+                      child: SizedBox(
+                        width: Responsive(context).width(150, tablet: 250, desktop: 300),
+                        height: Responsive(context).height(150, tablet: 250, desktop: 300),
+                        child: imageWidget,
+                      ),
                     ),
-                  ),
-                  Positioned(
-                    left: Responsive(context).width(8, tablet: 16, desktop: 20),
-                    top: Responsive(context).height(8, tablet: 16, desktop: 20),
-                    child: IconButton(
-                      onPressed: () => _showPickOptionsDialog(context),
-                      icon: Icon(Icons.add_a_photo, color: Colors.blue, size: Responsive(context).iconSize(24, tablet: 32, desktop: 40)),
+                    Positioned(
+                      left: Responsive(context).width(8, tablet: 16, desktop: 20),
+                      top: Responsive(context).height(8, tablet: 16, desktop: 20),
+                      child: IconButton(
+                        onPressed: () => _showPickOptionsDialog(context),
+                        icon: Icon(Icons.add_a_photo, color: Colors.blue, size: Responsive(context).iconSize(24, tablet: 32, desktop: 40)),
+                      ),
                     ),
-                  ),
-                ],
-              ),
-            ),
-
-            // Hive + image name display
-            if (storageHelper != null)
-              ValueListenableBuilder(
-                valueListenable: storageHelper!.listenable(),
-                builder: (context, Box box, _) {
-                  final nameSaved = storageHelper!.getName();
-                  return Text("Name Text: $nameSaved", style: const TextStyle(fontSize: 18));
-                },
-              ),
-
-            SizedBox(height: Responsive(context).heights(12, tablet: 20, desktop: 32)),
-
-            Form(
-              key: _formKey,
-              child: TextFormField(
-                controller: nameController,
-                decoration: InputDecoration(labelText: "Save Name Here", border: OutlineInputBorder()),
-                validator: (value) {
-                  if (value == null || value.trim().isEmpty) return "Name cannot be empty";
-                  if (value.trim().length < 3) return "Name must be at least 3 characters";
-                  return null;
-                },
-              ),
-            ),
-
-            SizedBox(height: Responsive(context).heights(12, tablet: 20, desktop: 32)),
-
-            SizedBox(
-              width: double.infinity,
-              child: ElevatedButton(
-                onPressed: () {
-                  if (_formKey.currentState!.validate()) saveTexts();
-                },
-                child: const Text("Save Text", style: TextStyle(color: Colors.black)),
-              ),
-            ),
-
-            if (selectedMood != null)
-              Column(
-                children: [
-                  Text(
-                    "Selected Mood: $selectedMood",
-                    style: TextStyle(
-                      fontSize: 18,
-                      color: moodColor,
-                      fontWeight: FontWeight.w600,
-                    ),
-                  ),
-                  const SizedBox(height: 20),
-                ],
-              ),
-
-
-
-            SizedBox(
-              width: double.infinity,
-              child: ElevatedButton(
-                onPressed: _openMoodTracker,
-                style: ElevatedButton.styleFrom(
-                  backgroundColor: Colors.orangeAccent,
-                  padding: const EdgeInsets.symmetric(vertical: 12),
-                ),
-                child: const Text(
-                  "Open Mood Tracker",
-                  style: TextStyle(color: Colors.white),
+                  ],
                 ),
               ),
-            ),
-            
-            
-            
-            
-            
-          ],
+
+              // Hive + image name display
+              if (storageHelper != null)
+                ValueListenableBuilder(
+                  valueListenable: storageHelper!.listenable(),
+                  builder: (context, Box box, _) {
+                    final nameSaved = storageHelper!.getName();
+                    return Text("Name Text: $nameSaved", style: const TextStyle(fontSize: 18));
+                  },
+                ),
+
+              SizedBox(height: Responsive(context).heights(12, tablet: 20, desktop: 32)),
+
+              Form(
+                key: _formKey,
+                child: TextFormField(
+                  controller: nameController,
+                  decoration: InputDecoration(labelText: "Save Name Here", border: OutlineInputBorder()),
+                  validator: (value) {
+                    if (value == null || value.trim().isEmpty) return "Name cannot be empty";
+                    if (value.trim().length < 3) return "Name must be at least 3 characters";
+                    return null;
+                  },
+                ),
+              ),
+
+              SizedBox(height: Responsive(context).heights(12, tablet: 20, desktop: 32)),
+
+              SizedBox(
+                width: double.infinity,
+                child: ElevatedButton(
+                  onPressed: () {
+                    if (_formKey.currentState!.validate()) saveTexts();
+                  },
+                  child: const Text("Save Text", style: TextStyle(color: Colors.black)),
+                ),
+              ),
+
+              if (selectedMood != null)
+                Column(
+                  children: [
+                    Text(
+                      "Selected Mood: $selectedMood",
+                      style: TextStyle(
+                        fontSize: 18,
+                        color: moodColor,
+                        fontWeight: FontWeight.w600,
+                      ),
+                    ),
+                    const SizedBox(height: 20),
+                  ],
+                ),
+
+
+
+              SizedBox(
+                width: double.infinity,
+                child: ElevatedButton(
+                  onPressed: _openMoodTracker,
+                  style: ElevatedButton.styleFrom(
+                    backgroundColor: Colors.orangeAccent,
+                    padding: const EdgeInsets.symmetric(vertical: 12),
+                  ),
+                  child: const Text(
+                    "Open Mood Tracker",
+                    style: TextStyle(color: Colors.white),
+                  ),
+                ),
+              ),
+
+
+
+
+
+            ],
+          ),
         ),
       ),
     );
