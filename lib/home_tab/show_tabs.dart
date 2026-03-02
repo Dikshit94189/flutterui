@@ -82,7 +82,7 @@ class _ShowsPageState extends State<ShowsPage> {
     List<String> sortedDates = stepsData.keys.toList()..sort();
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Daily Step Tracker'),
+        title:   Text('Daily Step Tracker' , style: TextStyle(color: CupertinoColors.black),),
         centerTitle: true,
         backgroundColor: Colors.green,
       ),
