@@ -281,7 +281,7 @@ class _BottomTab4State extends State<BottomTab4> {
                   ),
                   child: const Text(
                     "Open Mood Tracker",
-                    style: TextStyle(color: Colors.white),
+                    style: TextStyle(color: Colors.black45),
                   ),
                 ),
               ),

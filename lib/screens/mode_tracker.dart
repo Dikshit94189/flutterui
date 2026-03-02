@@ -29,7 +29,7 @@ class _ModeTrackerState extends State<ModeTracker> {
         backgroundColor: moodColor,
         title: const Text(
           "Mood Tracker",
-          style: TextStyle(color: Colors.white, fontWeight: FontWeight.w600),
+          style: TextStyle(color: Colors.black, fontWeight: FontWeight.w600),
         ),
         centerTitle: true,
         elevation: 0,
