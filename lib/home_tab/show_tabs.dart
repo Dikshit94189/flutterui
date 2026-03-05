@@ -92,7 +92,7 @@ class _ShowsPageState extends State<ShowsPage> {
           children: [
             const SizedBox(height: 20),
             Text(
-              "Today's Steps: $stepCount",
+              "Today's Steps:-> $stepCount",
               style: const TextStyle(
                   fontSize: 24, fontWeight: FontWeight.bold, color: Colors.green),
             ),
