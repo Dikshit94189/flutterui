@@ -11,8 +11,7 @@ class BottomTab1 extends StatefulWidget {
   State<BottomTab1> createState() => _BottomTab1State();
 }
 
-class _BottomTab1State extends State<BottomTab1>
-    with SingleTickerProviderStateMixin {
+class _BottomTab1State extends State<BottomTab1> with SingleTickerProviderStateMixin {
   late TabController _tabController;
   int _selectedIndex = 0;
 
