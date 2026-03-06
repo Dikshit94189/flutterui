@@ -289,7 +289,7 @@ class _BottomTab4State extends State<BottomTab4> {
 
               ElevatedButton(
                 onPressed: () {
-                  // _showIOSDialog(context);
+                  _showIOSDialog(context);
                 },
                 child: const Text("Open iOS Dialog"),
               ),
