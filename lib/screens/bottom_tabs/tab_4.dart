@@ -301,4 +301,31 @@ class _BottomTab4State extends State<BottomTab4> {
       ),
     );
   }
+
+  void _showIOSDialog(BuildContext context) {
+    showCupertinoDialog(
+      context: context,
+      builder: (context) {
+        return CupertinoAlertDialog(
+          title: const Text("iOS Dialog"),
+          content: const Text("This is an iOS style alert dialog in Flutter."),
+          actions: [
+            CupertinoDialogAction(
+              child: const Text("Cancel"),
+              onPressed: () {
+                Navigator.pop(context);
+              },
+            ),
+            CupertinoDialogAction(
+              isDefaultAction: true,
+              child: const Text("OK"),
+              onPressed: () {
+                Navigator.pop(context);
+              },
+            ),
+          ],
+        );
+      },
+    );
+  }
 }
