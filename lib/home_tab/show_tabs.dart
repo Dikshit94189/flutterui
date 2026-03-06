@@ -98,7 +98,7 @@ class _ShowsPageState extends State<ShowsPage> {
             ),
             const SizedBox(height: 30),
             const Text(
-              "Steps per Day:",
+              "Steps coounter per Day:",
               style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
             ),
             const SizedBox(height: 20),
