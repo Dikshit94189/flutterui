@@ -291,7 +291,7 @@ class _BottomTab4State extends State<BottomTab4> {
                 onPressed: () {
                   _showIOSDialog(context);
                 },
-                child: const Text("Open iOS Dialog"),
+                child: const Text("Open iOS Dialog Button"),
               ),
 
 
