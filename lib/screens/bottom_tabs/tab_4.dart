@@ -307,7 +307,7 @@ class _BottomTab4State extends State<BottomTab4> {
       context: context,
       builder: (context) {
         return CupertinoAlertDialog(
-          title: const Text("iOS Dialog"),
+          title: const Text("iOS Dialog Updateg"),
           content: const Text("This is an iOS style alert dialog in Flutter."),
           actions: [
             CupertinoDialogAction(
