@@ -318,7 +318,7 @@ class _BottomTab4State extends State<BottomTab4> {
             ),
             CupertinoDialogAction(
               isDefaultAction: true,
-              child: const Text("OK"),
+              child: const Text("OK Text"),
               onPressed: () {
                 Navigator.pop(context);
               },
